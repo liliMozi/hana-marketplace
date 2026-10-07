@@ -6,6 +6,12 @@
       "id": "hana-coder",
       "repository": "liliMozi/hana-coder",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "recipe",
+      "id": "ask-user-cards",
+      "repository": "liliMozi/ask-user-cards",
+      "publisher": "liliMozi"
     }
   ]
 }

@@ -6,6 +6,12 @@
       "id": "hana-coder",
       "tag": "recipe-2026-10-07.1",
       "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b"
+    },
+    {
+      "kind": "recipe",
+      "id": "ask-user-cards",
+      "tag": "recipe-2026-10-07",
+      "sha256": "8b0d641578e90f25cb7560506b36c937e5b8c8f3f4a20eb687d456e659d3b154"
     }
   ]
 }
