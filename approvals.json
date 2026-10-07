@@ -60,6 +60,12 @@
       "id": "video-summarizer",
       "tag": "v1.2.0",
       "sha256": "b285d7c8537b1cf45ee2c70acfbfb26fe2b9757eea043f353416cad82643ebf0"
+    },
+    {
+      "kind": "app",
+      "id": "comfyui-hana",
+      "tag": "v0.11.0",
+      "sha256": "9a4adf993b297c91e96627ece6c866271b2de7309f4e3ea466e2ef7a447f70e5"
     }
   ]
 }

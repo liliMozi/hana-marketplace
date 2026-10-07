@@ -60,6 +60,12 @@
       "id": "session-insight",
       "repository": "youyongdemao/HanaAgent-session-insight",
       "publisher": "Swimming Cat"
+    },
+    {
+      "kind": "app",
+      "id": "comfyui-hana",
+      "repository": "JohnGalt0802/hana-comfyui",
+      "publisher": "John Galt"
     }
   ]
 }
