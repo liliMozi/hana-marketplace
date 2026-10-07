@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "app",
+      "id": "input-toolkit",
+      "repository": "xxisme/input-toolkit",
+      "publisher": "放线菌"
+    }
+  ]
 }
