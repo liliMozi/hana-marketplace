@@ -3,7 +3,7 @@
   "entries": [
     {
       "kind": "app",
-      "id": "session-insight-v2",
+      "id": "session-insight",
       "repository": "youyongdemao/HanaAgent-session-insight",
       "publisher": "Swimming Cat"
     }
