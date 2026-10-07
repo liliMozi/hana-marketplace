@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "repository": "liliMozi/hana-coder",
+      "publisher": "liliMozi"
+    }
+  ]
 }
