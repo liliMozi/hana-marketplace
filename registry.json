@@ -12,6 +12,18 @@
       "id": "ask-user-cards",
       "repository": "liliMozi/ask-user-cards",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "repository": "youyongdemao/video-summarizer",
+      "publisher": "Swimming Cat"
+    },
+    {
+      "kind": "app",
+      "id": "session-porter",
+      "repository": "Hzl0929/Hana-Session-Porter",
+      "publisher": "Hzl0929"
     }
   ]
 }

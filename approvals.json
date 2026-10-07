@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "approvals": [
     {
+      "kind": "app",
+      "id": "session-porter",
+      "tag": "v0.3.2",
+      "sha256": "eb97065722063fdc89ca7e250dcad7cb33978b6a5c76d74fd9d05a91658f7975"
+    },
+    {
       "kind": "recipe",
       "id": "hana-coder",
       "tag": "recipe-2026-10-07.1",
@@ -12,6 +18,12 @@
       "id": "ask-user-cards",
       "tag": "recipe-2026-10-07",
       "sha256": "8b0d641578e90f25cb7560506b36c937e5b8c8f3f4a20eb687d456e659d3b154"
+    },
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "tag": "v1.2.0",
+      "sha256": "b285d7c8537b1cf45ee2c70acfbfb26fe2b9757eea043f353416cad82643ebf0"
     }
   ]
 }
