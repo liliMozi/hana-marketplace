@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "app",
+      "id": "prompt-optimizer",
+      "repository": "youyongdemao/HanaAgent-prompt-optimizer",
+      "publisher": "Swimming Cat"
+    }
+  ]
 }
