@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "repository": "youyongdemao/video-summarizer",
+      "publisher": "Swimming Cat"
+    }
+  ]
 }
