@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "approvals": []
+  "approvals": [
+    {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "tag": "recipe-2026-10-07.1",
+      "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b"
+    }
+  ]
 }
