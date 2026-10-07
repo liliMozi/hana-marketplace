@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "app",
+      "id": "session-insight-v2",
+      "repository": "youyongdemao/HanaAgent-session-insight",
+      "publisher": "Swimming Cat"
+    }
+  ]
 }
