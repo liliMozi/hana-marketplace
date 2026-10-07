@@ -1,4 +1,11 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "kind": "app",
+      "id": "answer-choice",
+      "repository": "youyongdemao/HanaAgent-answer-choice",
+      "publisher": "Swimming Cat"
+    }
+  ]
 }
