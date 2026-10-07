@@ -1,4 +1,6 @@
 {
   "schemaVersion": 1,
-  "entries": []
+  "entries": [
+    { "kind": "app", "id": "token-tracker-app", "repository": "H-i-m-s/token-tracker", "publisher": "H-i-m-s" }
+  ]
 }
