@@ -2,6 +2,23 @@
   "schemaVersion": 2,
   "sourceId": "official-global",
   "name": "Hana Global Market",
-  "publishedAt": "2026-01-01T00:00:00.000Z",
-  "items": []
+  "publishedAt": "2026-10-07T13:37:11.658Z",
+  "items": [
+    {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "name": "hana-coder",
+      "publisher": "liliMozi",
+      "description": "Hana Coder 开发者配方：用户要看仓库工作树/分支、整理或批量修复 Issue、查看或审阅 PR、打开常用命令面板时使用。按意图直接生成对应卡片：Issue 分组确认/修复汇报、PR 管理、工作树与分支、命令面板。支持刷新后 Agent 补简介、逐项批注、指定 PR 审阅和命令添加；不要求用户知道模板名。",
+      "version": "0.0.0",
+      "permissions": [],
+      "archive": {
+        "url": "https://github.com/liliMozi/hana-coder/releases/download/recipe-2026-10-07.1/recipe-hana-coder-007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b.zip",
+        "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b",
+        "size": 1314439,
+        "format": "zip"
+      },
+      "repository": "https://github.com/liliMozi/hana-coder"
+    }
+  ]
 }

@@ -4,16 +4,16 @@ on:
   pull_request:
     paths:
       - registry.json
+      - approvals.json
       - scripts/extension-market-sync.mjs
       - .github/workflows/sync-market.yml
   push:
     branches: [main]
     paths:
       - registry.json
+      - approvals.json
       - scripts/extension-market-sync.mjs
       - .github/workflows/sync-market.yml
-  schedule:
-    - cron: "17 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -35,20 +35,28 @@ jobs:
       - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: "24.15.0"
-      - name: Read candidate registry as data
+      - name: Read candidate registry and approvals as data
         working-directory: trusted
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           git fetch --no-tags origin "$PR_HEAD_SHA"
           git show "$PR_HEAD_SHA:registry.json" > ../candidate-registry.json
-      - name: Validate candidate enrollment with trusted code
+          # Pull requests opened before approvals existed keep the base approvals.
+          git show "$PR_HEAD_SHA:approvals.json" > ../candidate-approvals.json 2>/dev/null || cp approvals.json ../candidate-approvals.json
+      - name: Validate candidate enrollment and approvals with trusted code
         working-directory: trusted
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/extension-market-sync.mjs --registry ../candidate-registry.json --previous index.v2.json --out index.v2.json --check
+        run: node scripts/extension-market-sync.mjs --registry ../candidate-registry.json --approvals ../candidate-approvals.json --previous index.v2.json --out index.v2.json --check
+      - name: Show the release that review would approve
+        working-directory: trusted
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/extension-market-sync.mjs --discover --registry ../candidate-registry.json --approvals ../candidate-approvals.json --previous index.v2.json --changed-from registry.json
 
   generate:
+    # Publication changes only when reviewed registry or approvals change on main.
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -65,10 +73,10 @@ jobs:
       - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: "24.15.0"
-      - name: Synchronize reviewed releases
+      - name: Synchronize approved releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/extension-market-sync.mjs --registry registry.json --previous index.v2.json --out index.v2.json
+        run: node scripts/extension-market-sync.mjs --registry registry.json --approvals approvals.json --previous index.v2.json --out index.v2.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: generated-market-index
