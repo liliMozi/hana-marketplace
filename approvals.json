@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "approvals": [
+    {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "tag": "recipe-2026-10-07.1",
+      "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b"
+    },
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "tag": "v1.2.0",
+      "sha256": "b285d7c8537b1cf45ee2c70acfbfb26fe2b9757eea043f353416cad82643ebf0"
+    }
+  ]
+}

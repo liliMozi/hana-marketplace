@@ -34,7 +34,7 @@ function isCapabilityName(value) {
 
 // shared/extension-market-index.ts
 var MARKET_INDEX_SCHEMA_VERSION = 2;
-var MAX_MARKET_ARCHIVE_BYTES = 50 * 1024 * 1024;
+var MAX_MARKET_ARCHIVE_BYTES = 300 * 1024 * 1024;
 function isPlainObject(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -174,34 +174,375 @@ function validateMarketIndexV2(raw) {
 }
 
 // shared/log-redactor.ts
+var REDACTED = "[redacted]";
 var SECRET_KEY_PATTERN = "api[_-]?key|apikey|api-key|secret[_-]?key|secret|access[_-]?token|refresh[_-]?token|auth[_-]?token|token|password|passwd|client[_-]?secret|bot[_-]?token|server[_-]?token";
 var SECRET_ASSIGN_RE = new RegExp(`\\b(${SECRET_KEY_PATTERN})\\b\\s*[:=]\\s*(?:"[^"]*"|'[^']*'|[^\\s,"'\\]}]+)`, "gi");
+var SENSITIVE_OBJECT_KEY_RE = /^(api[_-]?key|apikey|api-key|authorization|cookie|set-cookie|secret[_-]?key|secret|access[_-]?token|refresh[_-]?token|auth[_-]?token|token|password|passwd|client[_-]?secret|bot[_-]?token|server[_-]?token|private[_-]?key|credential|credentials|session[_-]?key|session[_-]?id|user[_-]?id|chat[_-]?id|sender[_-]?name|avatar[_-]?url|owner|download[_-]?param|filekey)$/i;
+var URL_SECRET_QUERY_RE = /([?&](?:token|access_token|refresh_token|auth|authorization|api_key|apikey|api-key|key|secret|password|client_secret|code|appSurfaceSession|appIframeTicket)=)([^&#\s]+)/gi;
+var APP_UI_SURFACE_TOKEN_RE = /(\/api\/apps\/[^/\s?#]+\/(?:ui|routes\/_runtime\/[^/\s?#]+)\/_surface\/)([^/\s?#]+)(?=\/)/gi;
+var ENCODED_APP_UI_SURFACE_TOKEN_RE = /(%2Fapi%2Fapps%2F[^%&\s]+%2F(?:ui|routes%2F_runtime%2F[^%&\s]+)%2F_surface%2F)([^%&\s]+)(?=%2F)/gi;
+var API_KEY_VALUE_RE = /\b(sk-[a-zA-Z0-9_-]{20,}|AKIA[A-Z0-9]{16}|gsk_[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36}|glpat-[a-zA-Z0-9_-]{20,}|xox[abpors]-[a-zA-Z0-9-]+)\b/g;
+var EMAIL_RE = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g;
+var CREDIT_CARD_RE = /\b(?:\d{4}[- ]?){3}\d{4}\b/g;
+var CN_ID_CARD_RE = /\b\d{6}(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dXx]\b/g;
+var SSN_RE = /\b\d{3}-\d{2}-\d{4}\b/g;
+var LONG_RANDOM_RE = /(^|[^\w/.-])([A-Za-z0-9+/_=-]{40,})(?=$|[^\w/.-])/g;
+function redactLogText(value, options = {}) {
+  if (value == null) return "";
+  let text = String(value);
+  text = redactKnownPaths(text, options);
+  text = text.replace(/data:([^;,]+);base64,[A-Za-z0-9+/=]+/gi, "data:$1;base64,[redacted]");
+  text = text.replace(/(https?:\/\/)([^:@\s/?#]+):([^@\s/?#]+)@/gi, "$1[credentials]@");
+  text = text.replace(URL_SECRET_QUERY_RE, "$1[redacted]");
+  text = text.replace(APP_UI_SURFACE_TOKEN_RE, "$1[redacted]");
+  text = text.replace(ENCODED_APP_UI_SURFACE_TOKEN_RE, "$1[redacted]");
+  text = text.replace(/\b(Authorization\s*[:=]\s*Bearer\s+)[^\s,;]+/gi, "$1[redacted]");
+  text = text.replace(/\b(Bearer\s+)[A-Za-z0-9\-._~+/]+=*/gi, "$1[redacted]");
+  text = text.replace(/\b(Cookie|Set-Cookie)\s*[:=]\s*[^\r\n]+/gi, "$1=[redacted]");
+  text = text.replace(SECRET_ASSIGN_RE, (_m, key) => `${key}=[redacted]`);
+  text = text.replace(API_KEY_VALUE_RE, REDACTED);
+  text = text.replace(CREDIT_CARD_RE, "[credit_card]");
+  text = text.replace(CN_ID_CARD_RE, "[id_card]");
+  text = text.replace(SSN_RE, "[ssn]");
+  text = text.replace(EMAIL_RE, "[email]");
+  text = text.replace(LONG_RANDOM_RE, "$1[token]");
+  return text;
+}
+function redactKnownPaths(text, options) {
+  let out = text;
+  const paths = [];
+  if (options.homeDir) paths.push([options.homeDir, "~"]);
+  if (Array.isArray(options.extraPaths)) {
+    for (const p of options.extraPaths) paths.push([p, "[path]"]);
+  }
+  for (const [rawPath, replacement] of paths) {
+    if (!rawPath || typeof rawPath !== "string") continue;
+    const variants = pathVariants(rawPath);
+    for (const variant of variants) {
+      out = out.split(variant).join(replacement);
+      if (variant.startsWith("/")) {
+        out = out.split(`file://${variant}`).join(`file://${replacement}`);
+      }
+    }
+  }
+  out = out.replace(/file:\/\/\/Users\/[^/\s]+/g, "file:///Users/[user]");
+  out = out.replace(/\/Users\/[^/\s]+/g, "/Users/[user]");
+  out = out.replace(/file:\/\/\/home\/[^/\s]+/g, "file:///home/[user]");
+  out = out.replace(/\/home\/[^/\s]+/g, "/home/[user]");
+  out = out.replace(/\b([A-Za-z]:\\Users\\)[^\\/\s]+/g, "$1[user]");
+  out = out.replace(/\b([A-Za-z]:\/Users\/)[^\\/\s]+/g, "$1[user]");
+  return out;
+}
+function pathVariants(rawPath) {
+  const variants = /* @__PURE__ */ new Set([rawPath]);
+  if (rawPath.includes("\\")) variants.add(rawPath.replace(/\\/g, "/"));
+  if (rawPath.includes("/")) variants.add(rawPath.replace(/\//g, "\\"));
+  return variants;
+}
+function redactLogValue(value, options = {}, state = {}) {
+  const depth = state.depth || 0;
+  const seen = state.seen || /* @__PURE__ */ new WeakSet();
+  if (value == null) return value;
+  if (typeof value === "string") return redactLogText(value, options);
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") return value;
+  if (typeof value === "symbol" || typeof value === "function") return redactLogText(String(value), options);
+  if (value instanceof Error) {
+    const errCode = value.code;
+    return {
+      name: value.name,
+      message: redactLogText(value.message, options),
+      stack: value.stack ? redactLogText(value.stack, options) : void 0,
+      code: errCode ? redactLogText(String(errCode), options) : void 0
+    };
+  }
+  if (typeof value !== "object") return redactLogText(String(value), options);
+  if (seen.has(value)) return "[Circular]";
+  if (depth >= 8) return "[MaxDepth]";
+  seen.add(value);
+  if (Array.isArray(value)) {
+    return value.map((item) => redactLogValue(item, options, { depth: depth + 1, seen }));
+  }
+  const out = {};
+  for (const [key, item] of Object.entries(value)) {
+    const cleanKey = redactLogLabel(key);
+    if (SENSITIVE_OBJECT_KEY_RE.test(key)) {
+      out[cleanKey] = REDACTED;
+    } else {
+      out[cleanKey] = redactLogValue(item, options, { depth: depth + 1, seen });
+    }
+  }
+  return out;
+}
+function redactLogLabel(value) {
+  return redactLogText(value == null ? "unknown" : String(value)).replace(/[^a-zA-Z0-9_.:-]+/g, "_").slice(0, 80) || "unknown";
+}
+
+// lib/log-arguments.ts
+var MAX_STRING_CHARS = 4096;
+var MAX_TOTAL_CHARS = 8192;
+var MAX_DEPTH = 5;
+var MAX_ARRAY_ITEMS = 50;
+var MAX_OBJECT_KEYS = 50;
+var MAX_NODES = 200;
+var MAX_CAUSE_DEPTH = 3;
+var LOG_FORMAT_FALLBACK = "[log arguments unavailable]";
+function boundString(value) {
+  if (value.length <= MAX_STRING_CHARS) return value;
+  return `${value.slice(0, MAX_STRING_CHARS)}\u2026[truncated]`;
+}
+function collapseWhitespace(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+function constructorName(value) {
+  try {
+    const name = value.constructor?.name;
+    return typeof name === "string" && name ? name : "Object";
+  } catch {
+    return "Object";
+  }
+}
+function functionName(value) {
+  try {
+    return typeof value.name === "string" && value.name ? value.name : "anonymous";
+  } catch {
+    return "anonymous";
+  }
+}
+function readPlainField(target, key) {
+  try {
+    let owner = target;
+    while (owner) {
+      const descriptor = Object.getOwnPropertyDescriptor(owner, key);
+      if (descriptor) {
+        if (typeof descriptor.get === "function") return void 0;
+        return descriptor.value;
+      }
+      owner = Object.getPrototypeOf(owner);
+    }
+    return void 0;
+  } catch {
+    return void 0;
+  }
+}
+function toText(value) {
+  if (typeof value === "string") return value;
+  if (value === void 0 || value === null) return "";
+  return boundString(String(value));
+}
+function codeText(value) {
+  if (typeof value === "string") return boundString(value);
+  if (typeof value === "bigint") return `${value}n`;
+  if (value === null) return "null";
+  if (typeof value === "object") return "[object]";
+  return String(value);
+}
+function renderError(error, budget, seenCauses) {
+  const name = toText(readPlainField(error, "name")) || "Error";
+  const message = toText(readPlainField(error, "message"));
+  let text = message ? `${name}: ${message}` : name;
+  const code = readPlainField(error, "code");
+  if (code !== void 0 && code !== null && code !== "") {
+    text += ` (code=${codeText(code)})`;
+  }
+  const causes = [];
+  let cause = readPlainField(error, "cause");
+  let depth = 0;
+  while (cause !== void 0 && cause !== null) {
+    if (depth >= MAX_CAUSE_DEPTH) {
+      causes.push("[cause depth exceeded]");
+      break;
+    }
+    if (typeof cause === "object" && seenCauses.has(cause)) {
+      causes.push("[circular cause]");
+      break;
+    }
+    if (cause instanceof Error) {
+      seenCauses.add(cause);
+      const causeName = toText(readPlainField(cause, "name")) || "Error";
+      const causeMessage = toText(readPlainField(cause, "message"));
+      causes.push(causeMessage ? `${causeName}: ${causeMessage}` : causeName);
+      cause = readPlainField(cause, "cause");
+    } else {
+      causes.push(boundString(literal(renderValue(cause, budget, 0, /* @__PURE__ */ new Set()))));
+      break;
+    }
+    depth += 1;
+  }
+  if (causes.length) text += ` <- Caused by: ${causes.join(" <- ")}`;
+  return collapseWhitespace(text);
+}
+function renderValue(value, budget, depth, path2) {
+  if (budget.nodes <= 0) return "[budget exceeded]";
+  budget.nodes -= 1;
+  if (value === null) return null;
+  if (value === void 0) return "undefined";
+  switch (typeof value) {
+    case "string":
+      return boundString(value);
+    case "number":
+      return Number.isFinite(value) ? value : String(value);
+    case "boolean":
+      return value;
+    case "bigint":
+      return `${value}n`;
+    case "symbol":
+      return String(value);
+    case "function":
+      return `[Function: ${functionName(value)}]`;
+    default:
+      break;
+  }
+  if (value instanceof Error) return renderError(value, budget, /* @__PURE__ */ new Set([value]));
+  const object = value;
+  if (path2.has(object)) return "[Circular]";
+  if (depth >= MAX_DEPTH) return `[${constructorName(object)}]`;
+  if (Array.isArray(object)) {
+    path2.add(object);
+    const items = Array.from(object);
+    const shown = items.slice(0, MAX_ARRAY_ITEMS).map((item) => renderValue(item, budget, depth + 1, path2));
+    if (items.length > MAX_ARRAY_ITEMS) {
+      shown.push(`\u2026 (+${items.length - MAX_ARRAY_ITEMS} more)`);
+    }
+    path2.delete(object);
+    return shown;
+  }
+  if (object instanceof Map) {
+    path2.add(object);
+    const entries = Array.from(object.entries());
+    const shown = entries.slice(0, MAX_OBJECT_KEYS).map(
+      ([key, item]) => `${literal(renderValue(key, budget, depth + 1, path2))} => ${literal(renderValue(item, budget, depth + 1, path2))}`
+    );
+    if (entries.length > MAX_OBJECT_KEYS) {
+      shown.push(`\u2026 (+${entries.length - MAX_OBJECT_KEYS} more)`);
+    }
+    path2.delete(object);
+    return `[Map ${shown.join(", ")}]`;
+  }
+  if (object instanceof Set) {
+    path2.add(object);
+    const items = Array.from(object.values());
+    const shown = items.slice(0, MAX_OBJECT_KEYS).map((item) => literal(renderValue(item, budget, depth + 1, path2)));
+    if (items.length > MAX_OBJECT_KEYS) {
+      shown.push(`\u2026 (+${items.length - MAX_OBJECT_KEYS} more)`);
+    }
+    path2.delete(object);
+    return `[Set ${shown.join(", ")}]`;
+  }
+  let keys;
+  try {
+    keys = Object.keys(object);
+  } catch {
+    return `[${constructorName(object)}]`;
+  }
+  path2.add(object);
+  const out = {};
+  const limit = Math.min(keys.length, MAX_OBJECT_KEYS);
+  for (let index = 0; index < limit; index += 1) {
+    if (budget.nodes <= 0) {
+      out["\u2026"] = "[budget exceeded]";
+      break;
+    }
+    const key = keys[index];
+    let descriptor;
+    try {
+      descriptor = Object.getOwnPropertyDescriptor(object, key);
+    } catch {
+      descriptor = void 0;
+    }
+    out[key] = descriptor && typeof descriptor.get === "function" ? "[Getter]" : renderValue(descriptor ? descriptor.value : void 0, budget, depth + 1, path2);
+  }
+  if (keys.length > limit) out["\u2026"] = `(+${keys.length - limit} more)`;
+  path2.delete(object);
+  return out;
+}
+function literal(value) {
+  return typeof value === "string" ? value : safeStringify(value);
+}
+function safeStringify(value) {
+  try {
+    const text = JSON.stringify(value);
+    return text === void 0 ? String(value) : text;
+  } catch {
+    return "[unserializable]";
+  }
+}
+function boundText(text, max) {
+  if (text.length <= max) return text;
+  return `${text.slice(0, max)}\u2026[truncated]`;
+}
+function formatLogArguments(args, options = {}) {
+  try {
+    if (args == null) return "";
+    const list = Array.from(args);
+    const budget = { nodes: MAX_NODES };
+    const parts = [];
+    let used = 0;
+    for (const arg of list) {
+      let piece;
+      try {
+        const safe = renderValue(arg, budget, 0, /* @__PURE__ */ new Set());
+        const redacted = redactLogValue(safe, options);
+        piece = typeof redacted === "string" ? redacted : safeStringify(redacted);
+      } catch {
+        piece = "[unprintable argument]";
+      }
+      parts.push(piece);
+      used += piece.length + 1;
+      if (used >= MAX_TOTAL_CHARS) {
+        parts.push("\u2026[truncated]");
+        break;
+      }
+    }
+    const joined = parts.join(" ");
+    return boundText(redactLogText(joined, options), MAX_TOTAL_CHARS);
+  } catch {
+    return LOG_FORMAT_FALLBACK;
+  }
+}
 
 // lib/debug-log.ts
 var DEFAULT_MAX_BYTES = 5 * 1024 * 1024;
 var DEFAULT_MAX_LINE_BYTES = 64 * 1024;
 var _sink = null;
+var _sinkFailureReported = false;
 function route(type, module, msg) {
   const sink = _sink;
   if (!sink) return;
-  sink.write(type, module || "unknown", String(msg));
+  try {
+    sink.write(type, module || "unknown", String(msg));
+  } catch (err) {
+    if (!_sinkFailureReported) {
+      _sinkFailureReported = true;
+      try {
+        console.warn(`[debug-log] sink write failed; further failures will be silent: ${err?.message || err}`);
+      } catch {
+      }
+    }
+  }
 }
 function createModuleLogger(module) {
-  const info = (msg) => {
-    console.log(`[${module}] ${msg}`);
-    route("info", module, msg);
+  const write = (level, args) => {
+    let text;
+    try {
+      text = formatLogArguments(args);
+    } catch {
+      text = LOG_FORMAT_FALLBACK;
+    }
+    const line = `[${module}] ${text}`;
+    try {
+      if (level === "error") console.error(line);
+      else if (level === "warn") console.warn(line);
+      else console.log(line);
+    } catch {
+    }
+    route(level, module, text);
   };
+  const info = (...args) => write("info", args);
   return {
     log: info,
     info,
-    warn(msg) {
-      console.warn(`[${module}] ${msg}`);
-      route("warn", module, msg);
-    },
-    error(msg) {
-      console.error(`[${module}] ${msg}`);
-      route("error", module, msg);
-    }
+    warn: (...args) => write("warn", args),
+    error: (...args) => write("error", args)
   };
 }
 
@@ -411,6 +752,8 @@ var MAX_API_BYTES = 2 * 1024 * 1024;
 var MAX_REDIRECTS = 5;
 var TIMEOUT_MS = 2e4;
 var REPOSITORY_RE = /^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9_.-]{1,100}$/;
+var TAG_RE = /^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$/;
+var SHA256_RE = /^[0-9a-f]{64}$/;
 function isPlainObject2(value) {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -442,6 +785,40 @@ function readRegistry(raw) {
     seen.add(key);
     return { kind: entry.kind, id: entry.id, repository: entry.repository, publisher: entry.publisher.trim() };
   });
+}
+function enrollmentKey(record) {
+  return `${record.kind}:${record.id}`;
+}
+function readApprovalRecord(approval, label) {
+  if (!isPlainObject2(approval)) throw new Error(`${label} must be an object`);
+  exactKeys(approval, ["kind", "id", "tag", "sha256"], label);
+  if (!isExtensionKind(approval.kind)) throw new Error(`${label}.kind must be one of ${EXTENSION_KINDS.join(", ")}`);
+  if (!isSafeExtensionId(approval.id)) throw new Error(`${label}.id is not a safe extension id`);
+  if (typeof approval.tag !== "string" || !TAG_RE.test(approval.tag)) throw new Error(`${label}.tag must be a release tag of letters, digits, ".", "_", "+", or "-"`);
+  if (typeof approval.sha256 !== "string" || !SHA256_RE.test(approval.sha256)) throw new Error(`${label}.sha256 must be 64 lowercase hexadecimal characters`);
+  return { kind: approval.kind, id: approval.id, tag: approval.tag, sha256: approval.sha256 };
+}
+function readApprovalList(raw) {
+  if (!isPlainObject2(raw)) throw new Error("approvals must be a JSON object");
+  exactKeys(raw, ["schemaVersion", "approvals"], "approvals");
+  if (raw.schemaVersion !== 1) throw new Error("approvals.schemaVersion must be 1");
+  if (!Array.isArray(raw.approvals)) throw new Error("approvals.approvals must be an array");
+  const seen = /* @__PURE__ */ new Set();
+  return raw.approvals.map((approval, index) => {
+    const record = readApprovalRecord(approval, `approvals.approvals[${index}]`);
+    if (seen.has(enrollmentKey(record))) throw new Error(`approvals has duplicate approval ${enrollmentKey(record)}`);
+    seen.add(enrollmentKey(record));
+    return record;
+  });
+}
+function readApprovals(raw, registrations) {
+  const enrolled = new Set(registrations.map(enrollmentKey));
+  const approvals = /* @__PURE__ */ new Map();
+  for (const record of readApprovalList(raw)) {
+    if (!enrolled.has(enrollmentKey(record))) throw new Error(`approval ${enrollmentKey(record)} has no matching enrollment`);
+    approvals.set(enrollmentKey(record), record);
+  }
+  return approvals;
 }
 function parseJson(buffer, label) {
   try {
@@ -475,12 +852,13 @@ function assetFileName(url) {
 function expectedEntryName(registration, version) {
   return releaseEntryFileName(registration) || `${registration.kind}-${registration.id}-${version}.entry.json`;
 }
-function validateRelease(release) {
-  if (!isPlainObject2(release)) throw new Error("latest release payload must be an object");
-  if (release.draft === true) throw new Error("latest release is a draft");
-  if (release.prerelease === true) throw new Error("latest release is a prerelease");
-  if (typeof release.tag_name !== "string" || !release.tag_name.trim()) throw new Error("latest release has no tag name");
-  if (!Array.isArray(release.assets)) throw new Error("latest release has no assets array");
+function validateRelease(release, label, expectedTag) {
+  if (!isPlainObject2(release)) throw new Error(`${label} payload must be an object`);
+  if (release.draft === true) throw new Error(`${label} is a draft`);
+  if (release.prerelease === true) throw new Error(`${label} is a prerelease`);
+  if (typeof release.tag_name !== "string" || !release.tag_name.trim()) throw new Error(`${label} has no tag name`);
+  if (expectedTag !== void 0 && release.tag_name !== expectedTag) throw new Error(`${label} reports tag ${JSON.stringify(release.tag_name)}`);
+  if (!Array.isArray(release.assets)) throw new Error(`${label} has no assets array`);
   return { assets: release.assets, tagName: release.tag_name };
 }
 function assertReleaseAsset(asset, repository, tagName, label) {
@@ -504,10 +882,10 @@ function assertReleaseAsset(asset, repository, tagName, label) {
   }
   return asset;
 }
-function findOnlyAsset(assets, name, label, repository, tagName) {
+function findOnlyAsset(assets, name, label, repository, tagName, releaseLabel) {
   const matches = assets.filter((asset) => isPlainObject2(asset) && asset.name === name);
-  if (matches.length === 0) throw new Error(`latest release is missing ${label} asset ${name}`);
-  if (matches.length > 1) throw new Error(`latest release has ambiguous ${label} asset ${name}`);
+  if (matches.length === 0) throw new Error(`${releaseLabel} is missing ${label} asset ${name}`);
+  if (matches.length > 1) throw new Error(`${releaseLabel} has ambiguous ${label} asset ${name}`);
   return assertReleaseAsset(matches[0], repository, tagName, label);
 }
 function validateEntry(entry, registration) {
@@ -544,16 +922,18 @@ function githubApiFetch(fetchImpl, token) {
     return fetchImpl(input, { ...init, headers });
   };
 }
-async function readRelease(registration, { fetchImpl, token }) {
+async function readRelease(registration, { tag, fetchImpl, token }) {
+  const label = tag === void 0 ? "latest release" : `release ${tag}`;
+  const selector = tag === void 0 ? "latest" : `tags/${encodeURIComponent(tag)}`;
   const response = await fetchBounded({
-    url: `${API_BASE}/repos/${registration.repository}/releases/latest`,
+    url: `${API_BASE}/repos/${registration.repository}/releases/${selector}`,
     maxRedirects: 2,
     maxResponseBytes: MAX_API_BYTES,
     timeoutMs: TIMEOUT_MS,
     fetchImpl: githubApiFetch(fetchImpl, token)
   });
-  assertHttpSuccess(response, `${registration.kind}/${registration.id}`);
-  return validateRelease(parseJson(response.body, "latest release metadata"));
+  assertHttpSuccess(response, `${registration.kind}/${registration.id} ${label}`);
+  return { ...validateRelease(parseJson(response.body, `${label} metadata`), label, tag), label };
 }
 async function readEntryAsset(asset, registration, options) {
   const response = await fetchBounded({
@@ -635,27 +1015,61 @@ function historyFor(previous, candidate, registration) {
 function deepEqual(a, b) {
   return stableJson(a) === stableJson(b);
 }
-async function synchronizeMarket({ registry, previousIndex = null, fetchImpl = fetch, token, now = () => /* @__PURE__ */ new Date() }) {
+async function readReleaseCandidate(registration, { approval, fetchImpl, token }) {
+  const { assets, tagName, label } = await readRelease(registration, { tag: approval?.tag, fetchImpl, token });
+  const fixedName = releaseEntryFileName(registration);
+  const possibleEntries = fixedName ? [findOnlyAsset(assets, fixedName, "entry", registration.repository, tagName, label)] : assets.filter((asset) => isPlainObject2(asset) && typeof asset.name === "string" && asset.name.startsWith(`${registration.kind}-${registration.id}-`) && asset.name.endsWith(".entry.json"));
+  if (!fixedName && possibleEntries.length !== 1) throw new Error(`${label} must contain exactly one entry metadata asset for ${registration.kind}-${registration.id}`);
+  const entryAsset = assertReleaseAsset(possibleEntries[0], registration.repository, tagName, "entry");
+  const entry = await readEntryAsset(entryAsset, registration, { fetchImpl, token });
+  const expectedName = expectedEntryName(registration, entry.version);
+  if (entryAsset.name !== expectedName) throw new Error(`entry asset must be named ${expectedName}`);
+  const zipName = validateEntry(entry, registration);
+  if (approval && entry.archive.sha256 !== approval.sha256) throw new Error(`${label} ZIP sha256 does not match the approved sha256`);
+  const zipAsset = findOnlyAsset(assets, zipName, "ZIP", registration.repository, tagName, label);
+  await verifyArchive(zipAsset, entry, registration, { fetchImpl, token });
+  return { candidate: normalizeItem(projectEntry(entry, registration, zipAsset.browser_download_url)), tagName };
+}
+function publishedTag(item, repository) {
+  if (!item || item.repository !== canonicalRepository(repository)) return null;
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(new URL(item.archive.url).pathname);
+  } catch {
+    return null;
+  }
+  const prefix = `/${repository}/releases/download/`;
+  if (!decodedPath.startsWith(prefix)) return null;
+  const parts = decodedPath.slice(prefix.length).split("/");
+  return parts.length === 2 && parts[0] ? parts[0] : null;
+}
+function reusablePublishedItem(item, registration, approval) {
+  if (!item || item.publisher !== registration.publisher || item.archive.sha256 !== approval.sha256) return null;
+  return publishedTag(item, registration.repository) === approval.tag ? item : null;
+}
+async function synchronizeMarket({ registry, approvals, previousIndex = null, fetchImpl = fetch, token, now = () => /* @__PURE__ */ new Date() }) {
   const registrations = readRegistry(registry);
+  const approved = readApprovals(approvals, registrations);
   const previous = previousIndex === null ? null : strictIndex(previousIndex, "previous index");
-  const previousItems = new Map((previous?.items || []).map((item) => [`${item.kind}:${item.id}`, item]));
+  const previousItems = new Map((previous?.items || []).map((item) => [enrollmentKey(item), item]));
   const failures = [];
   const items = [];
+  const pending = [];
   for (const registration of registrations) {
+    const approval = approved.get(enrollmentKey(registration));
+    if (!approval) {
+      pending.push(`${registration.kind}/${registration.id}`);
+      continue;
+    }
+    const published = previousItems.get(enrollmentKey(registration));
+    const reusable = reusablePublishedItem(published, registration, approval);
+    if (reusable) {
+      items.push(reusable);
+      continue;
+    }
     try {
-      const { assets, tagName } = await readRelease(registration, { fetchImpl, token });
-      const fixedName = releaseEntryFileName(registration);
-      const possibleEntries = fixedName ? [findOnlyAsset(assets, fixedName, "entry", registration.repository, tagName)] : assets.filter((asset) => isPlainObject2(asset) && typeof asset.name === "string" && asset.name.startsWith(`${registration.kind}-${registration.id}-`) && asset.name.endsWith(".entry.json"));
-      if (!fixedName && possibleEntries.length !== 1) throw new Error(`latest release must contain exactly one entry metadata asset for ${registration.kind}-${registration.id}`);
-      const entryAsset = assertReleaseAsset(possibleEntries[0], registration.repository, tagName, "entry");
-      const entry = await readEntryAsset(entryAsset, registration, { fetchImpl, token });
-      const expectedName = expectedEntryName(registration, entry.version);
-      if (entryAsset.name !== expectedName) throw new Error(`entry asset must be named ${expectedName}`);
-      const zipName = validateEntry(entry, registration);
-      const zipAsset = findOnlyAsset(assets, zipName, "ZIP", registration.repository, tagName);
-      await verifyArchive(zipAsset, entry, registration, { fetchImpl, token });
-      const candidate = normalizeItem(projectEntry(entry, registration, zipAsset.browser_download_url));
-      items.push(historyFor(previousItems.get(`${registration.kind}:${registration.id}`), candidate, registration));
+      const { candidate } = await readReleaseCandidate(registration, { approval, fetchImpl, token });
+      items.push(historyFor(published, candidate, registration));
     } catch (error) {
       failures.push(`${registration.kind}/${registration.id} (${registration.repository}): ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -677,7 +1091,30 @@ ${failures.map((failure) => `- ${failure}`).join("\n")}`);
   }
   const index = strictIndex(draft, "generated index");
   const unchanged = Boolean(previous && deepEqual(index, previous));
-  return { index, unchanged };
+  return { index, unchanged, pending };
+}
+async function discoverReleases({ registry, approvals, previousIndex = null, onlyChangedFrom = null, fetchImpl = fetch, token }) {
+  const registrations = readRegistry(registry);
+  const approved = readApprovals(approvals, registrations);
+  const previous = previousIndex === null ? null : strictIndex(previousIndex, "previous index");
+  const previousItems = new Map((previous?.items || []).map((item) => [enrollmentKey(item), item]));
+  const baseline = onlyChangedFrom === null ? null : new Map(readRegistry(onlyChangedFrom).map((record) => [enrollmentKey(record), record]));
+  const proposals = [];
+  const skipped = [];
+  for (const registration of registrations) {
+    if (baseline && deepEqual(baseline.get(enrollmentKey(registration)), registration)) continue;
+    try {
+      const { candidate, tagName } = await readReleaseCandidate(registration, { fetchImpl, token });
+      if (approved.get(enrollmentKey(registration))?.sha256 === candidate.archive.sha256) continue;
+      if (!TAG_RE.test(tagName)) throw new Error(`release tag ${JSON.stringify(tagName)} must use only letters, digits, ".", "_", "+", or "-"`);
+      const published = previousItems.get(enrollmentKey(registration));
+      historyFor(published, candidate, registration);
+      proposals.push({ kind: registration.kind, id: registration.id, tag: tagName, sha256: candidate.archive.sha256, version: candidate.version });
+    } catch (error) {
+      skipped.push(`${registration.kind}/${registration.id} (${registration.repository}): ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+  return { proposals, skipped };
 }
 function writeIndexAtomically(outPath, index) {
   const directory = path.dirname(outPath);
@@ -691,28 +1128,57 @@ function writeIndexAtomically(outPath, index) {
     fs.rmSync(pending, { force: true });
   }
 }
+var USAGE = [
+  "Usage: extension-market-sync --registry registry.json --approvals approvals.json --previous index.v2.json --out index.v2.json [--check]",
+  "       extension-market-sync --discover --registry registry.json --approvals approvals.json --previous index.v2.json [--changed-from base-registry.json]"
+].join("\n");
 function parseArgs(argv) {
-  const args = { registry: null, previous: null, out: null, check: false };
+  const args = { registry: null, approvals: null, previous: null, out: null, check: false, discover: false, changedFrom: null };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === "--registry") args.registry = argv[++i];
+    else if (arg === "--approvals") args.approvals = argv[++i];
     else if (arg === "--previous") args.previous = argv[++i];
     else if (arg === "--out") args.out = argv[++i];
     else if (arg === "--check") args.check = true;
+    else if (arg === "--discover") args.discover = true;
+    else if (arg === "--changed-from") args.changedFrom = argv[++i];
     else throw new Error(`unknown argument ${arg}`);
   }
-  if (!args.registry || !args.out) throw new Error("Usage: extension-market-sync --registry registry.json --previous index.v2.json --out index.v2.json [--check]");
+  const valid = args.registry && args.approvals && (args.discover ? !args.out && !args.check : args.out && !args.changedFrom);
+  if (!valid) throw new Error(USAGE);
   return args;
+}
+function readJsonFile(file) {
+  return JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
 }
 async function main() {
   try {
     const args = parseArgs(process.argv.slice(2));
-    const outPath = path.resolve(args.out);
-    const previousPath = path.resolve(args.previous || args.out);
+    const outPath = args.discover ? null : path.resolve(args.out);
+    const previousPath = args.previous ? path.resolve(args.previous) : outPath;
     if (args.previous && !fs.existsSync(previousPath)) throw new Error(`--previous does not exist: ${previousPath}`);
-    const registry = JSON.parse(fs.readFileSync(path.resolve(args.registry), "utf8"));
-    const previous = fs.existsSync(previousPath) ? JSON.parse(fs.readFileSync(previousPath, "utf8")) : null;
-    const { index, unchanged } = await synchronizeMarket({ registry, previousIndex: previous, token: process.env.GITHUB_TOKEN });
+    const registry = readJsonFile(args.registry);
+    const approvalsDocument = readJsonFile(args.approvals);
+    const previous = previousPath && fs.existsSync(previousPath) ? readJsonFile(previousPath) : null;
+    if (args.discover) {
+      const { proposals, skipped } = await discoverReleases({
+        registry,
+        approvals: approvalsDocument,
+        previousIndex: previous,
+        onlyChangedFrom: args.changedFrom ? readJsonFile(args.changedFrom) : null,
+        token: process.env.GITHUB_TOKEN
+      });
+      for (const { version, ...approval } of proposals) {
+        console.log(`extension-market-sync: unapproved ${approval.kind}/${approval.id} version ${version}; approvals.json record: ${JSON.stringify(approval)}`);
+      }
+      for (const failure of skipped) console.log(`extension-market-sync: skipped ${failure}`);
+      console.log(`extension-market-sync: ${proposals.length} unapproved release(s), ${skipped.length} skipped`);
+      if (args.changedFrom && skipped.length) process.exitCode = 1;
+      return;
+    }
+    const { index, unchanged, pending } = await synchronizeMarket({ registry, approvals: approvalsDocument, previousIndex: previous, token: process.env.GITHUB_TOKEN });
+    if (pending.length) console.log(`extension-market-sync: awaiting approval: ${pending.join(", ")}`);
     if (args.check) console.log(`extension-market-sync: ${unchanged ? "no changes" : "index would change"} (${index.items.length} item(s))`);
     else if (unchanged && outPath === previousPath) console.log(`extension-market-sync: no changes (${index.items.length} item(s))`);
     else {
@@ -728,6 +1194,8 @@ if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(file
 export {
   MARKET_NAME,
   MARKET_SOURCE_ID,
+  discoverReleases,
+  readApprovals,
   readRegistry,
   synchronizeMarket,
   writeIndexAtomically

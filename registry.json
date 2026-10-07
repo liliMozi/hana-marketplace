@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "repository": "liliMozi/hana-coder",
+      "publisher": "liliMozi"
+    },
+    {
       "kind": "skill",
       "id": "video-summarizer",
       "repository": "youyongdemao/video-summarizer",
