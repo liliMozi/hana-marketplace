@@ -2,6 +2,30 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "repository": "liliMozi/hana-coder",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "repository": "youyongdemao/video-summarizer",
+      "publisher": "Swimming Cat"
+    },
+    {
+      "kind": "app",
+      "id": "session-porter",
+      "repository": "Hzl0929/Hana-Session-Porter",
+      "publisher": "Hzl0929"
+    },
+    {
+      "kind": "app",
+      "id": "answer-choice",
+      "repository": "youyongdemao/HanaAgent-answer-choice",
+      "publisher": "Swimming Cat"
+    },
+    {
       "kind": "app",
       "id": "prompt-optimizer",
       "repository": "youyongdemao/HanaAgent-prompt-optimizer",

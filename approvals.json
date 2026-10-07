@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "approvals": [
+    {
+      "kind": "app",
+      "id": "answer-choice",
+      "tag": "v0.1.1",
+      "sha256": "c12105e72c357bcc5ebb2829224466d1cc67ef476a3d0eaf934c94d237168479"
+    },
+    {
+      "kind": "app",
+      "id": "prompt-optimizer",
+      "tag": "v1.0.0",
+      "sha256": "4fbf74c0c35ed9be7f2fa45da864c45c897c5388b00485296dd859db0c53766e"
+    },
+    {
+      "kind": "app",
+      "id": "session-porter",
+      "tag": "v0.3.2",
+      "sha256": "eb97065722063fdc89ca7e250dcad7cb33978b6a5c76d74fd9d05a91658f7975"
+    },
+    {
+      "kind": "recipe",
+      "id": "hana-coder",
+      "tag": "recipe-2026-10-07.1",
+      "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b"
+    },
+    {
+      "kind": "skill",
+      "id": "video-summarizer",
+      "tag": "v1.2.0",
+      "sha256": "b285d7c8537b1cf45ee2c70acfbfb26fe2b9757eea043f353416cad82643ebf0"
+    }
+  ]
+}

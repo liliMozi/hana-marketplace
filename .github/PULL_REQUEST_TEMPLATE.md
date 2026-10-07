@@ -54,5 +54,6 @@
 - [ ] 本 PR 仅修改登记数据；未提交源码、安装包或截图文件。 / This PR changes enrollment data only; no source code, packages, or screenshot files are committed.
 - [ ] 作者仓库已有正式 Release，包含匹配的条目 JSON 和 ZIP。 / The repository has a stable Release with matching entry JSON and ZIP assets.
 - [ ] 登记的 kind、id、publisher 与条目一致。 / The registered kind, id, and publisher match the entry.
+- [ ] `approvals.json` 中的 tag 指向该 Release，sha256 照抄自条目 JSON 的 `archive.sha256`。 / The tag in `approvals.json` names that Release, and sha256 is copied from `archive.sha256` in the entry JSON.
 - [ ] 未手动编辑生成的 `index.v2.json`。 / I did not edit the generated `index.v2.json`.
 - [ ] 已填写审阅材料，不适用或未测试的部分已注明，图片已检查敏感信息。 / I completed the review materials, marked inapplicable or untested areas, and checked images for sensitive information.
