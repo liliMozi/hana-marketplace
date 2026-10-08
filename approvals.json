@@ -4,8 +4,8 @@
     {
       "kind": "app",
       "id": "answer-choice",
-      "tag": "v0.1.1",
-      "sha256": "c12105e72c357bcc5ebb2829224466d1cc67ef476a3d0eaf934c94d237168479"
+      "tag": "v0.1.2",
+      "sha256": "250f0a35018e012e71a9f1d9afb9a5b43929bc10d20aa16035dbc88b427a1af1"
     },
     {
       "kind": "app",
