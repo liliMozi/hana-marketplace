@@ -46,8 +46,8 @@
     {
       "kind": "recipe",
       "id": "hana-coder",
-      "tag": "recipe-2026-10-07.1",
-      "sha256": "007d582ca47d0b90a4da98674bef3efd7bc0b7fc80558d5a3a4e56c92a110a5b"
+      "tag": "recipe-2026-10-08",
+      "sha256": "f637cbba96436c729e7bf5f109bbdd0976ea333ab820030b84949a2e74b90e15"
     },
     {
       "kind": "recipe",
