@@ -132,6 +132,12 @@
       "id": "hana-vibecoding",
       "tag": "v0.5.1",
       "sha256": "3adaf99b1c28756b22fbdf1e1554e8b7e0a39ab2f4b132c81197d7307ba311c0"
+    },
+        {
+      "kind": "app",
+      "id": "paper-structure-modeling",
+      "tag": "v0.1.0",
+      "sha256": "c45bf2eebc85701561ef13181440fc407d576fac091befc14875a2e758ac0a04"
     }
   ]
 }
