@@ -504,6 +504,12 @@
       "id": "bookmate",
       "repository": "a13188087907/bookmate",
       "publisher": "XuJC"
+    },
+    {
+      "kind": "app",
+      "id": "local-vector-memory",
+      "repository": "Raizombie/local-vector-memory",
+      "publisher": "Raison"
     }
   ]
 }

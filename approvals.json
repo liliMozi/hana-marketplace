@@ -504,6 +504,12 @@
       "id": "bookmate",
       "tag": "v1.2.4",
       "sha256": "3bcb7390ea6fc2a1d8d3ea119be5a43920edb1847854ca1901f487e8b9a17ab6"
+    },
+    {
+      "kind": "app",
+      "id": "local-vector-memory",
+      "tag": "v1.0.0",
+      "sha256": "8f377447c340350d3a9f630f7ce6b5a37dfd0e8e24a3ba7eb5450bf29684d9f9"
     }
   ]
 }
