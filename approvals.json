@@ -504,6 +504,12 @@
       "id": "bookmate",
       "tag": "v1.2.4",
       "sha256": "3bcb7390ea6fc2a1d8d3ea119be5a43920edb1847854ca1901f487e8b9a17ab6"
+    },
+    {
+      "kind": "app",
+      "id": "magpie-hana",
+      "tag": "v1.0.0",
+      "sha256": "63bc9bc23bb14603ee4b663d65095ed21766e596e59169eaf2f5cfea6779da34"
     }
   ]
 }
