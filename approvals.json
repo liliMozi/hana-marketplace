@@ -22,8 +22,8 @@
     {
       "kind": "app",
       "id": "prompt-optimizer",
-      "tag": "v1.0.0",
-      "sha256": "4fbf74c0c35ed9be7f2fa45da864c45c897c5388b00485296dd859db0c53766e"
+      "tag": "v1.0.1",
+      "sha256": "c52a362f42530fbc9ca790fac4c665e38e80227c39855fa1295d8a77708e88bc"
     },
     {
       "kind": "app",
