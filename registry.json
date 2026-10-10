@@ -504,6 +504,12 @@
       "id": "bookmate",
       "repository": "a13188087907/bookmate",
       "publisher": "XuJC"
+    },
+    {
+      "kind": "app",
+      "id": "comfyui-hana",
+      "repository": "JohnGalt0802/hana-comfyui",
+      "publisher": "John Galt"
     }
   ]
 }
