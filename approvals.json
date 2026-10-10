@@ -40,8 +40,8 @@
     {
       "kind": "app",
       "id": "token-tracker-app",
-      "tag": "v8.5.0",
-      "sha256": "0e8b445de59aef807e7464563abada067eef118fd059200f9d9860473ef1cc42"
+      "tag": "v8.6.0",
+      "sha256": "f8045c56909434a49375da66833a9f3e1041c4af35f921f3d44996658a842ab1"
     },
     {
       "kind": "recipe",
