@@ -504,6 +504,12 @@
       "id": "bookmate",
       "repository": "a13188087907/bookmate",
       "publisher": "XuJC"
+    },
+    {
+      "kind": "app",
+      "id": "agent-workflow-canvas",
+      "repository": "yueeeee8588/agent-workflow-canvas",
+      "publisher": "Yue"
     }
   ]
 }
