@@ -138,6 +138,377 @@
       "id": "paper-structure-modeling",
       "repository": "SNLCC/paper-structure-modeling",
       "publisher": "论文结构建模"
+    {
+      "kind": "app",
+      "id": "voiceloop",
+      "repository": "givfei5-hash/openhanako-voiceloop-app",
+      "publisher": "givfei5-hash"
+    },
+    {
+      "kind": "app",
+      "id": "minimax-video",
+      "repository": "Doubi250/hana-app-minimax-video",
+      "publisher": "Doubi250"
+    },
+    {
+      "kind": "app",
+      "id": "hana-vault",
+      "repository": "zhang8019/hana-vault-app",
+      "publisher": "元一"
+    },
+    {
+      "kind": "connector",
+      "id": "context7",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "microsoft-learn",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "aws-knowledge",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-docs",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "huggingface",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "exa",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "jina",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "notion",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "linear",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "sentry",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "stripe",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "supabase",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "vercel",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "figma",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "paypal",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "neon",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "netlify",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "webflow",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "wix",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "intercom",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "square",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "monday",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-bindings",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-observability",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "prisma",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "jam",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "miro",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "clickup",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "todoist",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "gitlab",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dropbox",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "apify",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "postman",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "mapbox",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "semgrep",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "github",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "tencent-docs",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "edgeone-pages",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "gitee",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "bailian-amap",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "bailian-websearch",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-websearch",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-webreader",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-zread",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "tencent-map",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "amap",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "baidu-map",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "baidu-ai-search",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-docs",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-calendar",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-todo",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-contacts",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-ai-table",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "connector",
+      "id": "modelscope",
+      "repository": "liliMozi/hana-connectors",
+      "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "hana-powercontext",
+      "repository": "SeptTpes/hana-powercontext",
+      "publisher": "SeptTpes"
+    },
+    {
+      "kind": "app",
+      "id": "agent-model-plan",
+      "repository": "Codemaker997/agent-model-plan",
+      "publisher": "Codemaker997"
+    },
+    {
+      "kind": "app",
+      "id": "prompt-studio",
+      "repository": "n3ko3n/HanaAgent-prompt-studio",
+      "publisher": "n3ko3n"
+    },
+    {
+      "kind": "app",
+      "id": "office-toolkit",
+      "repository": "zhang8019/hana-office-toolkit",
+      "publisher": "元一"
+    },
+    {
+      "kind": "app",
+      "id": "bookmate",
+      "repository": "a13188087907/bookmate",
+      "publisher": "XuJC"
     }
   ]
 }

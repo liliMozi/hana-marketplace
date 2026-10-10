@@ -4,8 +4,8 @@
     {
       "kind": "app",
       "id": "answer-choice",
-      "tag": "v0.1.1",
-      "sha256": "c12105e72c357bcc5ebb2829224466d1cc67ef476a3d0eaf934c94d237168479"
+      "tag": "v0.1.3",
+      "sha256": "f52dc742e18a5bd2e4c30a82b2e270fa4c4696dc5c01b04d6e671c43a61a2ee2"
     },
     {
       "kind": "app",
@@ -28,8 +28,8 @@
     {
       "kind": "app",
       "id": "session-insight",
-      "tag": "v2.1.1",
-      "sha256": "26e8e28b43168667a880ff85c48b991f59ffeecba50a5d4284d2ec12799085a5"
+      "tag": "v2.1.2",
+      "sha256": "44e05a5f658363fea6811b7543821c8f9e0cd1838ee22ff8518d0f476b345f77"
     },
     {
       "kind": "app",
@@ -64,8 +64,8 @@
     {
       "kind": "app",
       "id": "dshana",
-      "tag": "v1.0.2+dsh-0.2.0-rc.2",
-      "sha256": "d8a144eba17b9457fa12e539fe6db12b09c41748cc3d48f20129fe4f3b7e4e82"
+      "tag": "v1.0.4+dsh-0.2.0-rc.2",
+      "sha256": "94cfa8cb109418ce6d705fcdb59f47373adb6198aaa3fd4cbe6a34ce539b24d7"
     },
     {
       "kind": "app",
@@ -118,8 +118,8 @@
     {
       "kind": "app",
       "id": "hana-excalidraw",
-      "tag": "v1.1.0",
-      "sha256": "508a162f011242e91591ff42bd12763842f6ff5d6694baa6befc90072c4f5897"
+      "tag": "v1.1.1",
+      "sha256": "588acc363db167a8152037364151cca974de57aca011e92af3d4207e04db5d1a"
     },
     {
       "kind": "app",
@@ -138,6 +138,377 @@
       "id": "paper-structure-modeling",
       "tag": "v0.1.0",
       "sha256": "070a717c4664a5aeaa4f0ac250a467c3a17d4b68f32e130a4e9ffbe77d7fe619"
+    {
+      "kind": "app",
+      "id": "voiceloop",
+      "tag": "v2.2.4",
+      "sha256": "81c95581035046bfac93172aff824bb0975880e61bb7aa5f21e46f07a4d16b60"
+    },
+    {
+      "kind": "app",
+      "id": "minimax-video",
+      "tag": "v0.1.7",
+      "sha256": "970b84b36b3c4fcb5c34745f014600849fa7a1d43243f93f020448cf722a1c9d"
+    },
+    {
+      "kind": "app",
+      "id": "hana-vault",
+      "tag": "v0.2.0",
+      "sha256": "8de5d3a222f8f75f724887cc5b38c66326780497c4436b5fe611a5007b23be97"
+    },
+    {
+      "kind": "connector",
+      "id": "context7",
+      "tag": "v2026.10.10",
+      "sha256": "5acded98fcc6824495d6a30bfabc6c8989b74a95031b9490722de429ebc85cc8"
+    },
+    {
+      "kind": "connector",
+      "id": "microsoft-learn",
+      "tag": "v2026.10.10",
+      "sha256": "5ea8a9d3cdf6f919b66a72b2fb610928b1b844b4ce62edde313cb9e14958a23b"
+    },
+    {
+      "kind": "connector",
+      "id": "aws-knowledge",
+      "tag": "v2026.10.10",
+      "sha256": "00738005fe62d568ab076090c19373c3da4d9ca7ffb5ca427fab93b013e872bb"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-docs",
+      "tag": "v2026.10.10",
+      "sha256": "ee88c125c66884a069d9bc368a02cb6a42fce2d44099383907e3ddffdaeaf357"
+    },
+    {
+      "kind": "connector",
+      "id": "huggingface",
+      "tag": "v2026.10.10",
+      "sha256": "dbb379aac1916cd4e746b1f44b6f205943f9840a95745d452c010ea4b69e6f13"
+    },
+    {
+      "kind": "connector",
+      "id": "exa",
+      "tag": "v2026.10.10",
+      "sha256": "170fdbf8ba87397a3c1b4132b0ffd990c81895fdfdf8be072d899a7f773d15a0"
+    },
+    {
+      "kind": "connector",
+      "id": "jina",
+      "tag": "v2026.10.10",
+      "sha256": "64cb11bfefa10322a10c973650c97c7ec7bc343b6cb2baba457406e638fe4af7"
+    },
+    {
+      "kind": "connector",
+      "id": "notion",
+      "tag": "v2026.10.10",
+      "sha256": "816b06b213d8f67eedd394a5c79c2932930c55acf1cd65e0c43b40b2705f8c03"
+    },
+    {
+      "kind": "connector",
+      "id": "linear",
+      "tag": "v2026.10.10",
+      "sha256": "92a89be47855f9d3ed1cbf21541e69b06b1dcbb2e1a2cd9fc21d2b264afd6073"
+    },
+    {
+      "kind": "connector",
+      "id": "sentry",
+      "tag": "v2026.10.10",
+      "sha256": "fb54bf90b410aae70ec685bf2cff321a16430025d1c4423e28536ed94c3d1b71"
+    },
+    {
+      "kind": "connector",
+      "id": "stripe",
+      "tag": "v2026.10.10",
+      "sha256": "afca9cfbe28529165a10e1aad19fdb06c1a2032e202072dc6de77f5d11b5b692"
+    },
+    {
+      "kind": "connector",
+      "id": "supabase",
+      "tag": "v2026.10.10",
+      "sha256": "0d10445c9bc4976b762b2347ff9330f95b8757dd80ff4b9c6cf7101d1aa3f8f2"
+    },
+    {
+      "kind": "connector",
+      "id": "vercel",
+      "tag": "v2026.10.10",
+      "sha256": "6c01b7e5fec9cca5ad0207e1ff58e3ee2d1e9322a520574b77646c2ef5111441"
+    },
+    {
+      "kind": "connector",
+      "id": "figma",
+      "tag": "v2026.10.10",
+      "sha256": "0d3e7b731d745f7389ea36be7b98ac1daa7985cfdf554d4516c9e4a9b125b8af"
+    },
+    {
+      "kind": "connector",
+      "id": "paypal",
+      "tag": "v2026.10.10",
+      "sha256": "e57233f97bf039504be3e06d63349274cfc26adaddf5b8323d67c4eb4c0d5e0d"
+    },
+    {
+      "kind": "connector",
+      "id": "neon",
+      "tag": "v2026.10.10",
+      "sha256": "3c92e377afeafc504f09c891a2fe7eb58b43d36aae81d7b7686af69e136d44b7"
+    },
+    {
+      "kind": "connector",
+      "id": "netlify",
+      "tag": "v2026.10.10",
+      "sha256": "a9677bb0a9c0d9d76bd4b661c2a9fc34599b6ad0180e54d787a0fb8b08eea233"
+    },
+    {
+      "kind": "connector",
+      "id": "webflow",
+      "tag": "v2026.10.10",
+      "sha256": "9576b33e152096d4d814b3db871cda1bf069ace9349c39effe46cc7c89503a92"
+    },
+    {
+      "kind": "connector",
+      "id": "wix",
+      "tag": "v2026.10.10",
+      "sha256": "8f80f53f0e83cfa0e45be478ae3330d73cf10da32b85d5aebb777f462311d118"
+    },
+    {
+      "kind": "connector",
+      "id": "intercom",
+      "tag": "v2026.10.10",
+      "sha256": "72a7ff19af7110da10e0e96c49d97127f2f653313fbb48d95546c361ceaa6a21"
+    },
+    {
+      "kind": "connector",
+      "id": "square",
+      "tag": "v2026.10.10",
+      "sha256": "8737b4f237953b75e099dbb493bc00257154e48d3a0fbd3bc08d590121ec7c18"
+    },
+    {
+      "kind": "connector",
+      "id": "monday",
+      "tag": "v2026.10.10",
+      "sha256": "3ae2595be6e6e2c18469b2f3622409c310cde03d661a90bd4c4389ea59c2a4d1"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-bindings",
+      "tag": "v2026.10.10",
+      "sha256": "3585e644912a6a908aa2baa6fe0abd80fecda0bc357840697bc4ada61e0312db"
+    },
+    {
+      "kind": "connector",
+      "id": "cloudflare-observability",
+      "tag": "v2026.10.10",
+      "sha256": "7fcf9812fb3fc272cf844f80286ee96dca6b1f92abd66d46a489490806256e84"
+    },
+    {
+      "kind": "connector",
+      "id": "prisma",
+      "tag": "v2026.10.10",
+      "sha256": "82063e4b092f30494b0d94435c5052034597fe2f0dfe8973d411c561786ea431"
+    },
+    {
+      "kind": "connector",
+      "id": "jam",
+      "tag": "v2026.10.10",
+      "sha256": "44cbe7ff00f434f5d634119535bdb9fa8fa4f34fc3ac93f0a8bc017f14de94b2"
+    },
+    {
+      "kind": "connector",
+      "id": "miro",
+      "tag": "v2026.10.10",
+      "sha256": "efff724fe8cab3263581c38221461ffad43bd0a2c0e3f894162c098dddaa4f30"
+    },
+    {
+      "kind": "connector",
+      "id": "clickup",
+      "tag": "v2026.10.10",
+      "sha256": "f3697a41f603b2a4be067b34dbdf4af098001e11a0f9fa5ba7bbe4a00b709773"
+    },
+    {
+      "kind": "connector",
+      "id": "todoist",
+      "tag": "v2026.10.10",
+      "sha256": "0c8c42b89257b8ba22ef96405f190b49239d528558a122d639de4120a79963fa"
+    },
+    {
+      "kind": "connector",
+      "id": "gitlab",
+      "tag": "v2026.10.10",
+      "sha256": "ae49604d27a69bc7823494a3153f37df4cd28b18b0689b3a694085cd94fd9775"
+    },
+    {
+      "kind": "connector",
+      "id": "dropbox",
+      "tag": "v2026.10.10",
+      "sha256": "9326a0ef20e50c4b5af66e63647097f93faeff0e34c9391b41440fc1344d1cd7"
+    },
+    {
+      "kind": "connector",
+      "id": "apify",
+      "tag": "v2026.10.10",
+      "sha256": "c17fd763bdd98dd1d0bb96eb1d2fac2bfefdffe2d49f0651c85a160e78381e1a"
+    },
+    {
+      "kind": "connector",
+      "id": "postman",
+      "tag": "v2026.10.10",
+      "sha256": "c09bcccb4b534e1019dae24a5d4c2b8fcc4bf78fbc49cf4effef0c467c9ca1a2"
+    },
+    {
+      "kind": "connector",
+      "id": "mapbox",
+      "tag": "v2026.10.10",
+      "sha256": "4e33cfe198af3dbf2c60048ed2ed347e4bfce43bbcfa0460e20d1cd83e5533c0"
+    },
+    {
+      "kind": "connector",
+      "id": "semgrep",
+      "tag": "v2026.10.10",
+      "sha256": "bcf7c73e3839bc5881ecc1ebbcb3f092ff866ffb88e2b0826082cd9ec27ee947"
+    },
+    {
+      "kind": "connector",
+      "id": "github",
+      "tag": "v2026.10.10",
+      "sha256": "88570716d27ac614619050f4e13a5ba0736addef5e5234681470e59c77ec8e2e"
+    },
+    {
+      "kind": "connector",
+      "id": "tencent-docs",
+      "tag": "v2026.10.10",
+      "sha256": "4092c9c261335e0ea91f9709970651120208d4f1353b86c96d307282847d4f06"
+    },
+    {
+      "kind": "connector",
+      "id": "edgeone-pages",
+      "tag": "v2026.10.10",
+      "sha256": "3974400587c283d6d89c9fa1428addd3fe6357525fa617ab6846c4d259f669e9"
+    },
+    {
+      "kind": "connector",
+      "id": "gitee",
+      "tag": "v2026.10.10",
+      "sha256": "0b0b5cafd052dce32de46529a02dbbff816124ff0a842eb4fc379868b7aa53a2"
+    },
+    {
+      "kind": "connector",
+      "id": "bailian-amap",
+      "tag": "v2026.10.10",
+      "sha256": "f803babeac992b765d6d60816de8dd3402d0f1d2833ce84fc49e76b38ec5ea84"
+    },
+    {
+      "kind": "connector",
+      "id": "bailian-websearch",
+      "tag": "v2026.10.10",
+      "sha256": "f4f7c02709e4001a364a8c1a2fef05ddd33b329e234955c6de1c6c8e109b4b5a"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-websearch",
+      "tag": "v2026.10.10",
+      "sha256": "e71be47e923f2200a634781b5fefba53a52d76e99de9203574c5f06347057998"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-webreader",
+      "tag": "v2026.10.10",
+      "sha256": "b89e6a18400b91569381361a7e1f84269779b6b5d16c40c05b49c3136fed3743"
+    },
+    {
+      "kind": "connector",
+      "id": "zhipu-zread",
+      "tag": "v2026.10.10",
+      "sha256": "992d08b5af62d62fcc17c32a282f49fe2679bfb40fc12632dcf72a4853aa55f8"
+    },
+    {
+      "kind": "connector",
+      "id": "tencent-map",
+      "tag": "v2026.10.10",
+      "sha256": "8d65fe0701a56260fc3a038001ca1d24da450f04a2994a239ad3f9267ed972ff"
+    },
+    {
+      "kind": "connector",
+      "id": "amap",
+      "tag": "v2026.10.10",
+      "sha256": "33a3d4f56be7c435ad86e90f5f9cb09335fd540c840b165ab6002a550965273f"
+    },
+    {
+      "kind": "connector",
+      "id": "baidu-map",
+      "tag": "v2026.10.10",
+      "sha256": "7fbc5501e3d6944212da664acda1f3650ac3b5b89df5ad45d452ba9868b81b5d"
+    },
+    {
+      "kind": "connector",
+      "id": "baidu-ai-search",
+      "tag": "v2026.10.10",
+      "sha256": "a14ecda1b3bafea5626659d476ea3e6458a968c55c2b27965df05443a3e69d3a"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-docs",
+      "tag": "v2026.10.10",
+      "sha256": "de3a7f00cfb6cf988b285373d23080fc49b8a11bd6481c6c772a63c2d6ad73ce"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-calendar",
+      "tag": "v2026.10.10",
+      "sha256": "7f6b90257f0c7d8192fd5453c495e66bf99a0c49fb8469b115abe1ebcbf60ca8"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-todo",
+      "tag": "v2026.10.10",
+      "sha256": "3eb08df5791254ae5360ae9f2dd23694c7d8180c7314ae21baf015bccca5b401"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-contacts",
+      "tag": "v2026.10.10",
+      "sha256": "463672dc086337dcda3ef9931c362fbb797f2e3e645671424bf308428a2bc766"
+    },
+    {
+      "kind": "connector",
+      "id": "dingtalk-ai-table",
+      "tag": "v2026.10.10",
+      "sha256": "d3f7ae7b65d7b58c539c65ecd82a83442592d2f86f1528ec4927e8119e6108b0"
+    },
+    {
+      "kind": "connector",
+      "id": "modelscope",
+      "tag": "v2026.10.10",
+      "sha256": "f5560cea71f58b0ff84d6ebdc1b03af77e7c182d2ea175af1386cfef9bc5ca8b"
+    },
+    {
+      "kind": "app",
+      "id": "hana-powercontext",
+      "tag": "v1.0.1",
+      "sha256": "5cdf103ebf8fa25cc4f05938c51a05d471a36fe7459b948afa8aca4c02a1ab92"
+    },
+    {
+      "kind": "app",
+      "id": "agent-model-plan",
+      "tag": "v1.2.0",
+      "sha256": "3d7d6eb679c55380598129dcf4398056a7fed817fa0c078c4913c3540e2e8b80"
+    },
+    {
+      "kind": "app",
+      "id": "prompt-studio",
+      "tag": "v0.4.3",
+      "sha256": "02d809db231243ef7d0c933b939a05d635952ddf25f8baa11f6d434c4e318259"
+    },
+    {
+      "kind": "app",
+      "id": "office-toolkit",
+      "tag": "v0.10.1",
+      "sha256": "83943311fa2fff5212499e99f530bf087c68376738f604702ac61c26337bebf5"
+    },
+    {
+      "kind": "app",
+      "id": "bookmate",
+      "tag": "v1.2.4",
+      "sha256": "3bcb7390ea6fc2a1d8d3ea119be5a43920edb1847854ca1901f487e8b9a17ab6"
     }
   ]
 }
