@@ -504,6 +504,12 @@
       "id": "bookmate",
       "tag": "v1.2.4",
       "sha256": "3bcb7390ea6fc2a1d8d3ea119be5a43920edb1847854ca1901f487e8b9a17ab6"
+    },
+    {
+      "kind": "app",
+      "id": "agent-workflow-canvas",
+      "tag": "v2.3.4",
+      "sha256": "ffc6fc8f3ca17641292398fa44d7398e00222f30fcf17499734c6f625b68571b"
     }
   ]
 }
