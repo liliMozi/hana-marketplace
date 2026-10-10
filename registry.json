@@ -504,6 +504,12 @@
       "id": "bookmate",
       "repository": "a13188087907/bookmate",
       "publisher": "XuJC"
+    },
+    {
+      "kind": "app",
+      "id": "tigexing-app",
+      "repository": "moononnn/hanako-tigexing-app",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
