@@ -504,6 +504,12 @@
       "id": "bookmate",
       "repository": "a13188087907/bookmate",
       "publisher": "XuJC"
+    },
+    {
+      "kind": "app",
+      "id": "hana-model-viewer",
+      "repository": "JohnGalt0802/hana-model-viewer",
+      "publisher": "John Galt"
     }
   ]
 }
