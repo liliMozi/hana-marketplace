@@ -133,6 +133,11 @@
       "repository": "hayou2002/hana-vibecoding",
       "publisher": "hayou2002"
     },
+        {
+      "kind": "app",
+      "id": "paper-structure-modeling",
+      "repository": "SNLCC/paper-structure-modeling",
+      "publisher": "论文结构建模"
     {
       "kind": "app",
       "id": "voiceloop",
