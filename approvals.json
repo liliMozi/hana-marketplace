@@ -148,8 +148,8 @@
     {
       "kind": "app",
       "id": "hana-vault",
-      "tag": "v0.2.0",
-      "sha256": "8de5d3a222f8f75f724887cc5b38c66326780497c4436b5fe611a5007b23be97"
+      "tag": "v0.3.5",
+      "sha256": "a6b51de2f37a89ebdcb0d491d7089867f97a35329e4f6e017a455e8624ce751c"
     },
     {
       "kind": "connector",
