@@ -582,6 +582,12 @@
       "id": "agent-workflow-canvas",
       "repository": "yueeeee8588/agent-workflow-canvas",
       "publisher": "Yue"
+    },
+    {
+      "kind": "recipe",
+      "id": "hana-card-templates",
+      "repository": "openhanako-labs/openhanako-sundries",
+      "publisher": "Yuexiye"
     }
   ]
 }
