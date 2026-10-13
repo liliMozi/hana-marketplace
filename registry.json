@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "kind": "app",
+      "id": "quick-cmd",
+      "repository": "Magnemomet/hana-quick-cmd",
+      "publisher": "Magnemomet"
+    },
+    {
       "kind": "recipe",
       "id": "hana-coder",
       "repository": "liliMozi/hana-coder",
