@@ -582,6 +582,12 @@
       "id": "agent-workflow-canvas",
       "repository": "yueeeee8588/agent-workflow-canvas",
       "publisher": "Yue"
+    },
+    {
+      "kind": "app",
+      "id": "hanako-localstrata",
+      "repository": "hsz1273327/hanako-localstrata",
+      "publisher": "hsz1273327"
     }
   ]
 }
