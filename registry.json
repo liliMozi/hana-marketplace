@@ -582,6 +582,12 @@
       "id": "agent-workflow-canvas",
       "repository": "yueeeee8588/agent-workflow-canvas",
       "publisher": "Yue"
+    },
+    {
+      "kind": "app",
+      "id": "diff-stat",
+      "repository": "kagurazakayukari/diff-stat",
+      "publisher": "紫喵"
     }
   ]
 }
