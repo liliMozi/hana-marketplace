@@ -582,6 +582,12 @@
       "id": "agent-workflow-canvas",
       "repository": "yueeeee8588/agent-workflow-canvas",
       "publisher": "Yue"
+    },
+    {
+      "kind": "connector",
+      "id": "tinyfish",
+      "repository": "Nyasers/tinyfish",
+      "publisher": "Nyasers"
     }
   ]
 }
