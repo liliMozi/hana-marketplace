@@ -755,6 +755,12 @@
       "id": "hana-card-templates",
       "tag": "recipe-2026-10-11",
       "sha256": "989567b871bf44fab091e8f0d1778ff9ccbed2cd91e56165f26650b53ab8caea"
+    },
+    {
+      "kind": "app",
+      "id": "hanako-localstrata",
+      "tag": "v1.1.1",
+      "sha256": "a01dc0d82998b1289ab53968429f3bffffb8d17eac8a63fb05ada0dc5448cf7e"
     }
   ]
 }
