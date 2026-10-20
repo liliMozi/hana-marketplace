@@ -648,6 +648,12 @@
       "id": "hana-card-templates",
       "repository": "openhanako-labs/openhanako-sundries",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "hanako-localstrata",
+      "repository": "hsz1273327/hanako-localstrata",
+      "publisher": "hsz1273327"
     }
   ]
 }
