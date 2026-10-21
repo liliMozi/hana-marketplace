@@ -647,7 +647,12 @@
       "kind": "recipe",
       "id": "hana-card-templates",
       "repository": "openhanako-labs/openhanako-sundries",
-      "publisher": "Yuexiye"
+      "publisher": "Yuexiye"},
+    {
+      "kind": "skill",
+      "id": "download",
+      "repository": "1818GE/download-skill",
+      "publisher": "1818GE"
     }
   ]
 }
