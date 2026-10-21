@@ -648,6 +648,12 @@
       "id": "hana-card-templates",
       "repository": "openhanako-labs/openhanako-sundries",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "blender-bridge",
+      "repository": "openhanako-labs/openhanako-blender-bridge",
+      "publisher": "Yuexiye"
     }
   ]
 }

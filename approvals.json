@@ -755,6 +755,13 @@
       "id": "hana-card-templates",
       "tag": "recipe-2026-10-11",
       "sha256": "989567b871bf44fab091e8f0d1778ff9ccbed2cd91e56165f26650b53ab8caea"
+    },
+    {
+      "kind": "app",
+      "id": "blender-bridge",
+      "tag": "v1.67.3",
+      "sha256": "d9e6c1bae9a25869cf3e836a9d09c6c73ee0b8632f6154bd7f22f144e73bc5a2",
+      "readme": "# Blender 助手\n\n把本机 Blender 接进 Hana。模型可以直接看视口、跑 bpy 代码、读场景结构、搜索参数、做判断。\n\n## 它解决什么\n\n给 Blender 加 AI，难点不在模型，在**通道**：Blender 的所有 bpy 操作必须在主线程跑，外部进程直接调会崩或静默失效；而 Hana App 的 AppHost 默认拒绝 raw socket、子进程与任意网络。\n\n## 架构\n\n三段式：Blender addon 起本地 TCP 服务 → 受管 Node 中继翻译协议 → Hana 工具面。\n\n中继是受管 runtime，宿主逐次授予权限，App 主进程永远拿不到 socket 句柄。单 TCP 连接而非连接池，因为 addon 的应答没有帧分隔符，且命令在 addon 侧全局串行。\n\n## 30+ 个动作\n\n一个 `blender` 工具，`action` 选动作。基础（doctor / see / view / do / scene / object / raw）、搜索与判定（loop / plan / txn）、产出（render / channel / assets / headless / runs）、质量（qc / deliver / audit / perf / generator / motion / preset）、通道管理（lease / worker / job）。\n\nview 会自动算相机距离（按场景包围盒与镜头视角反推），也能从任意方位取景；默认不把视口叠加层拍进图。\n\n## 站在谁的肩膀上\n\n**这个 App 的大部分能力来自上游项目。**\n\n- [sixtysevenlf/dsh-blender-plugin](https://github.com/sixtysevenlf/dsh-blender-plugin)（BSD-3-Clause）—— 能力族主体：契约层、规划器、内环搜索、事务、QC、生成器、机构\n- [ahujasid/mcp-for-blender](https://github.com/ahujasid/blender-mcp)（MIT）—— Blender 侧 TCP 通道与 bpy 主线程执行\n- [RobLe3/cc-blender-skill](https://github.com/RobLe3/cc-blender-skill) 与 [arjun988/blender-skills](https://github.com/arjun988/blender-skills)（均 MIT）—— 随包建模技能的方法论来源\n\n本项目的改动集中在把直连通道改造成受管 runtime 的形态，以及接进 Hana 的工具面与卡片。\n\n## 安全\n\n带受管 runtime，已过五道闸：调用方密钥经 argv 末位传入不落盘、Host/浏览器指纹、方法分级（405）、请求格式（415）、参数绑定（/deliver 的路径净化）。免鉴权面只开给只读路径。\n\n## 许可\n\n自有代码 AGPL-3.0-or-later；上游组件许可各自保留，明细见仓库 LICENSE。"
     }
   ]
 }
