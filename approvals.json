@@ -755,6 +755,12 @@
       "id": "hana-card-templates",
       "tag": "recipe-2026-10-11",
       "sha256": "989567b871bf44fab091e8f0d1778ff9ccbed2cd91e56165f26650b53ab8caea"
+    },
+    {
+      "kind": "skill",
+      "id": "document-converter",
+      "tag": "document-converter-v1.0.0",
+      "sha256": "2909bf47c7a9ce594859a90934ff4cffe601d0f7207a87c92dc968d8d77bbb8e"
     }
   ]
 }
