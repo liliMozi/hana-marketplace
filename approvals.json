@@ -755,6 +755,12 @@
       "id": "hana-card-templates",
       "tag": "recipe-2026-10-11",
       "sha256": "989567b871bf44fab091e8f0d1778ff9ccbed2cd91e56165f26650b53ab8caea"
+    },
+    {
+      "kind": "skill",
+      "id": "whisper-transcribe",
+      "tag": "whisper-transcribe-v1.0.0",
+      "sha256": "74f8464595d9dffbdc95db982de21210bb0e022505455075cefae28b4667b10b"
     }
   ]
 }
