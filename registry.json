@@ -648,6 +648,12 @@
       "id": "hana-card-templates",
       "repository": "openhanako-labs/openhanako-sundries",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "opencode-quota",
+      "repository": "headdshawnta-dot/hana-app-opencode-quota",
+      "publisher": "Allan"
     }
   ]
 }
