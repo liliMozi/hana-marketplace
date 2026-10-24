@@ -755,6 +755,15 @@
       "id": "hana-card-templates",
       "tag": "recipe-2026-10-11",
       "sha256": "989567b871bf44fab091e8f0d1778ff9ccbed2cd91e56165f26650b53ab8caea"
+    },
+    {
+      "kind": "app",
+      "id": "hana-broke",
+      "tag": "v0.9.2",
+      "sha256": "c6463f80a127029aa2ef381d01885dd9cd9b1c255c3140e02214ed5ad98a7f9e",
+      "readme": "# Hana Broke\n\n> 每到周末和月末，总有一段难熬的日子。这个 App 把你**已经登录的那些订阅**——WorkBuddy / WorkBuddy AI、Qoder、OpenCode Zen 的免费额度——一起接进 HanaAgent。装这一个插件，不用再装别的东西。\n\n## 它是什么\n\n一个桥接：HanaAgent 只讲 OpenAI 协议，而这些订阅各讲各的。App 在 127.0.0.1:8789 上起一个服务器，把它们都变成 OpenAI 的形状，再把自己注册成 HanaAgent 的供应商。\n\n**供应商不是这个 App 写的，是可安装的插件。** 每个订阅对应一个 npm 包——来自 magpie 的社区插件库，纯 JS、零依赖。这个 App 提供的是驱动它们的宿主（登录、刷新、模型清单、一次请求），以及插件做不到的那部分：**怎么把供应商正确注册进 HanaAgent**。\n\n| 供应商 | 插件包 | 要什么 |\n| --- | --- | --- |\n| Qoder / Qoder CN | opencode-qoder-auth | 浏览器里登录一次（或 PAT） |\n| WorkBuddy / WorkBuddy AI | opencode-workbuddy-auth | 桌面 App 已登录的账号 |\n| OpenCode Zen 免费 | opencode-zen-free-auth | 什么都不用，key 就是 public |\n\n## 0.9.0 的鉴权\n\n127.0.0.1 是可达性，不是权限。本机任何进程都能连回环端口，所以每个请求都要过三道校验：\n\n- **Bearer**：首次运行用 crypto.randomBytes(32) 生成，写入 <data-dir>/bridge-token（0600）。if (token === \"\") return true 这行已删除；空文件会重新生成，不会被当成放行。比较用 \timingSafeEqual。\n- **Host** 必须是本监听地址，挡 DNS rebinding。\n- **Origin / Sec-Fetch-Site**：两者都在场时按白名单校验，跨站请求即使带着正确密钥也拒绝。\n\n桥接自带的匿名 /panel 控制台已删除——它必须把密钥注入 HTML 才能调 /admin/*，那个路由本身无法既校验密钥又能被匿名访问。控制台只存在于 HanaAgent 内，密钥由 App 的 /api/* 代理在服务端附加，浏览器永远拿不到。\n\n模型接口同样受保护。HanaAgent 对回环 \base_url 且声明 \u0007uthType: \"none\" 的 provider 会跳过密钥，所以本 App 写入的声明是 \u0007uthType: \"api-key\" 加共享密钥，PUT /api/config 也带 \u0007pi_key，最终以 Authorization: Bearer 发出。\n\n## 借了什么，出自哪里\n\nTHIRD_PARTY_NOTICES.md 有完整记录：供应商协议来自 @magpie-community/opencode-*-auth（MIT，原样安装、原样调用）；宿主契约读自 magpie 的 internal/plugin/host.js（MIT）；Qoder 协议细节参考 Liki4/qodercli2api（AGPL，仅文档）与 shuishuipingan/qoder2api-hub（MIT）。"
     }
   ]
 }
+
+
