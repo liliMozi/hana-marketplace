@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "jiegehua-zhiyi",
+      "repository": "moononnn/Hanakao-jieyuhua-zhiyi",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
