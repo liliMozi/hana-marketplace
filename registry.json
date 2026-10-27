@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "skin-wardrobe",
+      "repository": "openhanako-labs/openhanako-skin-wardrobe",
+      "publisher": "Yuexiye"
     }
   ]
 }
