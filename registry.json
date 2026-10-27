@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "juzishu",
+      "repository": "StonyCatsama/juzishu",
+      "publisher": "你可以叫咱咕咕"
     }
   ]
 }
