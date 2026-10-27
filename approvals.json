@@ -762,6 +762,13 @@
       "tag": "v0.1.0",
       "sha256": "a4eda1a1bea9951fad93174e517746623153b3b7a3d1623c85856b871d400fe8",
       "readme": "# Push Astra\n\n在 Hana 输入栏加入一枚手掌按钮。点击一次，向当前会话发送一条「继续」，让停下来的 Agent 接着完成工作。\n\n## 使用\n\n安装并为目标 Agent 启用 App 后，按钮出现在左侧工具与右侧模型、发送控制之间。空闲会话会开始新回合；正在生成的会话由宿主选择 steering 或排队。每次点击只发送一次，不自动重试或循环。\n\n需要 Hana 1.1.116-beta 或更新版本。\n\n## 权限\n\n- `app/input.status`：显示输入栏按钮并接收点击。\n- `app/sessions.manage`：向并非由本 App 创建的当前会话写入消息。\n- `app/session.start-turn`：把「继续」送入模型并启动回合。\n\nApp 不访问外部服务，不读取会话历史，也不把工具暴露给模型自行调用。"
+    },
+    {
+      "kind": "app",
+      "id": "peikan",
+      "tag": "v0.1.6",
+      "sha256": "a925fe8b04b89f244fec4a30625bc6d7dfc17a367d40341fb65594c70edb3bcb",
+      "readme": "# 陪看（Peikan）\n\n> 会自己过日子的 B站助手 —— 按作息醒来、看视频、写笔记、回评论，把值得的递给你。\n\nA Bilibili companion App for Hana: wakes with your schedule, watches videos, takes notes, replies to comments.\n\n## 功能\n\n- 自主浏览与观看记录\n- 视频笔记与总结\n- 评论回复（含风控闸门与配额冷却）\n- 按作息自动醒来 / 休眠\n\n## 说明\n\n- 分享每天有上限；同一视频 7 天内不重推；同一人 30 天内只回一次（主人豁免）\n- 五道闸门：kill switch / 确定性规则 / 白名单+配额 / 沉默衰减 / 评分"
     }
   ]
 }
