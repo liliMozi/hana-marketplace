@@ -653,7 +653,12 @@
       "kind": "app",
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
-      "publisher": "liliMozi"
+      "publisher": "liliMozi"},
+    {
+      "kind": "skill",
+      "id": "route-planner-amap",
+      "repository": "1818GE/route-planner-amap",
+      "publisher": "1818GE"
     }
   ]
 }
