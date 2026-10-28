@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "kc-system",
+      "repository": "SUDA133/hana-kc-system",
+      "publisher": "SUDA133"
     }
   ]
 }
