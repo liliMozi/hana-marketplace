@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "skill",
+      "id": "hana-draft-image-zoom",
+      "repository": "moononnn/hanako--chakantupian",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
