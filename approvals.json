@@ -766,8 +766,8 @@
     {
       "kind": "skill",
       "id": "hana-draft-image-zoom",
-      "tag": "v1.0.0",
-      "sha256": "e388d163ff936f884a48720095c062e97712a943ee7429a2a496627153ddd588",
+      "tag": "v1.0.1",
+      "sha256": "03c9dcc3f6e928c35569866b3d2a896d8fc6a4cbe8394696c8709e87ad8f1d60",
       "readme": "# 草稿图片放大 · 点一下看大图\n\nHanaAgent 聊天输入框里粘贴或附加图片后，草稿区只有一个小小的缩略图，点它没反应；发出去之后消息里的图倒是能点开。这个 skill 补上草稿阶段的那一截。\n\n## 装上之后能干什么\n\n- **单击草稿缩略图 → 全屏看大图**\n- 草稿里有多张图 → 左右箭头切换（键盘 ← → 也行）\n- **滚轮缩放**，放大后可以拖动\n- 双击在 1× / 2× 之间切，`0` 复位，`Esc` 或点背景关闭\n\n## 安装\n\n装成 skill 之后，Agent 会按 `SKILL.md` 里的流程自动完成安装；也可以自己手动跑：\n\n```powershell\npowershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1\n```\n\nWindows PowerShell 5.1 和 PowerShell 7 都能跑。装完**完全退出 Hana 再启动**（托盘图标也要退干净）。\n\n想先看当前状态：\n\n```powershell\npowershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Check\n```\n\n想撤掉或还原：\n\n```powershell\npowershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Uninstall   # 撤掉\npowershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Restore     # 出问题时还原\n```\n\n## 它改了什么\n\n只有两个文件，都在 Hana 自己的 renderer 目录里（`~/.hanako/artifacts/renderer/<版本>/`）：\n\n- `modules/draft-image-zoom.js` —— 新增，功能脚本\n- `index.html` —— 在 `</body>` 前插一行 `<script src=\"modules/draft-image-zoom.js\" data-hdiz=\"1\"></script>`\n\n不碰打包后的 chunk，不改 Program Files 里的安装目录，不联网，不读也不写任何用户数据。首次修改前脚本自动把 `index.html` 备份成 `index.html.hdiz.bak`，卸载和还原都靠这份备份，卸载后 `index.html` 与安装前字节一致。\n\n## 一个要知道的限制\n\n**Hana 每更新一次，这个功能就会消失一次，需要重跑一次安装脚本。**\n\n官方更新会把 renderer 解包成新的版本目录，`index.html` 被换成新的，注入的那行随之不见。这不是脚本坏了，是本地补丁的固有代价。脚本每次安装都会自动指向最新的版本目录，所以重跑一条命令就能恢复。\n\n## 已知边界\n\n- 只作用于主窗口。快速对话、手机版、平板版走的是别的入口页，不覆盖。\n- 只处理图片和 svg 缩略图，音频和普通文件不管。\n- 只取缩略图 `img` 元素上的 `src`；上游如果改成背景图，这里要跟着改。\n- 这是本地补丁，不是官方功能。\n\n## 权限与外部服务\n\n无。脚本不联网，不访问任何外部服务，不读取或写入用户数据，只在用户自己的 Hana 安装目录里改两个文件。"
     }
   ]
