@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "opencode-quota",
+      "repository": "headdshawnta-dot/hana-app-opencode-quota",
+      "publisher": "Allan"
     }
   ]
 }
