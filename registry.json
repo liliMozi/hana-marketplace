@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "skill",
+      "id": "document-converter",
+      "repository": "headdshawnta-dot/hana-skills-public",
+      "publisher": "Allan"
     }
   ]
 }
