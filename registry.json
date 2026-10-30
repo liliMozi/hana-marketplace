@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "oh-releases",
+      "repository": "Nyasers/oh-releases",
+      "publisher": "Nyasers"
     }
   ]
 }
