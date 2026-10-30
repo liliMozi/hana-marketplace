@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "neo-project-manage-v2",
+      "repository": "Alex0921001/neo-project-manage",
+      "publisher": "Alex0921001"
     }
   ]
 }
