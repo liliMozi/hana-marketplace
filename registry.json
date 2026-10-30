@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "hana-deepseek-account",
+      "repository": "Nyasers/hana-deepseek-account",
+      "publisher": "Nyaser"
     }
   ]
 }
