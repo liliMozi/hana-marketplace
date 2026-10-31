@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "sp-tasks",
+      "repository": "shenmingganlin/hana-sp-tasks",
+      "publisher": "shenmingganlin"
     }
   ]
 }
