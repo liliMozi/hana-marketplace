@@ -654,6 +654,12 @@
       "id": "hana-push-astra",
       "repository": "liliMozi/hana-push-astra",
       "publisher": "liliMozi"
+    },
+    {
+      "kind": "app",
+      "id": "hana-video-evidence",
+      "repository": "odonaldwillmert-hue/hana-video-reader",
+      "publisher": "小土"
     }
   ]
 }
