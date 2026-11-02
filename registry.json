@@ -666,6 +666,12 @@
       "id": "hana-local-tts",
       "repository": "139zbc/HanaAgent-plugins-HanaLocalTTS",
       "publisher": "139zbc"
+    },
+    {
+      "kind": "app",
+      "id": "neo-project-manage-v2",
+      "repository": "Alex0921001/neo-project-manage",
+      "publisher": "Alex0921001"
     }
   ]
 }
