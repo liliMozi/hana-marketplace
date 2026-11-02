@@ -762,6 +762,12 @@
       "id": "document-converter",
       "repository": "headdshawnta-dot/hana-skills-public",
       "publisher": "Allan"
+    },
+    {
+      "kind": "app",
+      "id": "nian-vault",
+      "repository": "hayou2002/nian-vault",
+      "publisher": "hayou2002"
     }
   ]
 }
