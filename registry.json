@@ -744,6 +744,12 @@
       "id": "opencode-quota",
       "repository": "headdshawnta-dot/hana-app-opencode-quota",
       "publisher": "Allan"
+    },
+    {
+      "kind": "app",
+      "id": "hanako-localstrata",
+      "repository": "hsz1273327/hanako-localstrata",
+      "publisher": "hsz1273327"
     }
   ]
 }
