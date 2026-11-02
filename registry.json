@@ -738,6 +738,12 @@
       "id": "peikan",
       "repository": "openhanako-labs/openhanako-peikan",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "opencode-quota",
+      "repository": "headdshawnta-dot/hana-app-opencode-quota",
+      "publisher": "Allan"
     }
   ]
 }
