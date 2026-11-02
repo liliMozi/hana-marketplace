@@ -769,6 +769,12 @@
       "tag": "v0.10.2",
       "sha256": "3b9bea75b9035e956106010b0c813213794ca8ed895762fc4c80f8dacff8ec02",
       "readme": "# 任务台\n\n把 [Super Productivity](https://super-productivity.com/)（SP）接入 Hana 对话。SP 是唯一的任务记录源，Hana 通过工具读写它，不另存一份任务。\n\n## 能做什么\n\n- 建任务和子任务，修改标题、备注、计划日、截止日和预估时长，按标题、项目、标签搜索，包括已归档任务。\n- 开始和停止计时，事后补记工时。\n- 重复规则、笔记、计数器。\n- 整棵任务树归档与恢复。恢复时保留完成时间、放弃标记、计划日和父任务预估；部分失败可以查看进度并继续修复，不会重复执行写操作。\n- 回答前附一行今日待办摘要（60 秒缓存，SP 连不上时跳过，不影响对话）。\n\n配合 SP 扩展（随应用内置，也可从 Release 单独下载）还能：管理项目和标签、调整任务顺序、修改常用偏好和快捷键、添加链接附件、切换工作上下文、发送面板命令。\n\n## 使用前准备\n\n1. 安装 SP 桌面版，在设置中开启本地 REST API（默认 `http://127.0.0.1:3876`）。任务台会自动读取 SP 的 REST 令牌，也可手动填写。\n2. 打开任务台设置页，顶部「本地接口」显示连接正常即可使用基础功能。\n3. 需要扩展能力时，在设置页保存 SP 扩展包，在 SP 的插件界面上传并启用，再回到设置页配对。也可以在新对话里说「请使用任务台安装引导」，由助手一步步检查。\n\n## 权限说明\n\n- `app/tools.expose-to-model`：向对话提供任务工具。\n- `app/hooks.agent-pre-step`：回答前附加待办摘要。\n- `app/resources.read`：读取 SP 的 REST 令牌文件和内置扩展包。\n- `app/resources.write`：用户点击保存时，把内置扩展包写到用户选择的位置。\n- `app/runtime.execute`、`app/runtime.native`、`app/runtime.network`：运行桥接服务，只监听 `127.0.0.1:3877`，供 SP 扩展连接。默认停用，用户配对后才启用。Windows 上需要 Hana 的 native sandbox 身份已初始化，首次启动约需一分钟。\n- `app/ui.clipboard-write`：用户点击复制配对码。\n\n网络出站只允许本机回环地址，不访问外部服务。\n\n本项目不是 Super Productivity 或 Hana 的官方出品。源码与问题反馈：<https://github.com/shenmingganlin/hana-sp-tasks>\n"
+    },
+    {
+      "kind": "app",
+      "id": "hana-local-tts",
+      "tag": "v0.9.16",
+      "sha256": "58489468baa9746e1fa8cb7f8786ec49175d7d89e7b190fb00876480744be315"
     }
   ]
 }

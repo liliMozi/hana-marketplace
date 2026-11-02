@@ -660,6 +660,12 @@
       "id": "sp-tasks",
       "repository": "shenmingganlin/hana-sp-tasks",
       "publisher": "shenmingganlin"
+    },
+    {
+      "kind": "app",
+      "id": "hana-local-tts",
+      "repository": "139zbc/HanaAgent-plugins-HanaLocalTTS",
+      "publisher": "139zbc"
     }
   ]
 }
