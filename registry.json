@@ -690,6 +690,12 @@
       "id": "kc-system",
       "repository": "SUDA133/hana-kc-system",
       "publisher": "SUDA133"
+    },
+    {
+      "kind": "app",
+      "id": "oh-releases",
+      "repository": "Nyasers/oh-releases",
+      "publisher": "Nyasers"
     }
   ]
 }
