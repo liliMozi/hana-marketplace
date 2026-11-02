@@ -892,6 +892,13 @@
       "tag": "v0.20.0",
       "sha256": "96bab33dcfb10c0e46557d1ac381f3513982742b69c7527ccce5e74221a961d8",
       "readme": "# 念念收藏夹\n\n个人数字资产仓库。把文字、网页、图片、文件引用、经验笔记统一收藏成一个可备份的 Markdown 库，AI 协助归档整理，Agent 干活时可直接调用库内资产。\n\n## 它解决什么问题\n\n- **收藏什么都能装**：笔记、剪藏（B站视频带封面卡与内嵌播放）、文件路径引用、经验台账……类型存在每条的 front matter 里\n- **预览力所能及**：图片、音频、PDF、Word（.docx）、Excel、PPT 双击即在面板内看。本地视频交给系统播放器——App 沙箱读不到库外大文件，硬塞进去只会黑屏\n- **AI 是整理员**：对话里丢一条链接说「收藏这个」，AI 会抓正文、起标题、打标签后入库；也能一句话把整个收件箱批量归位\n- **数据是你自己的**：整个库就是一个文件夹，Markdown 即数据库，可直接打包备份、可换存储位置，没有私有格式绑架\n\n## 主要能力\n\n三栏界面（分类树 / 条目列表 / 详情编辑），卡片墙与列表两种密度；拖拽建层级，删父条目子条目自动上提；反向链接面板与正文内可点待办；Vditor 所见即所得编辑器，输入 `[[` 弹自动补全。\n\n11 个工具暴露给 Agent：收藏、搜索、读取、更新、分类管理、收件箱批量归位、对话内勾选收藏等。\n\n## 安装\n\n不需要任何外部依赖，也不需要 Node 环境——只用宿主 SDK 与 Node 内置模块，预览用的第三方库已打包在内。安装后首次启动会自建空库，开箱可用。\n\n## 权限说明\n\n申请了资源读写（存取库文件）、模型调用（AI 起标题与摘要）、会话读取（从对话里取要收藏的内容）、打开外部程序（用系统播放器打开视频）、剪贴板写入（找不到入口时复制路径）。不访问任何外部网络服务，全部内容留在本地。"
+    },
+    {
+      "kind": "app",
+      "id": "blender-bridge",
+      "tag": "v1.67.4",
+      "sha256": "b954e598282a42fd2de54b5dfd063f1289ccb84b1148419f6588599e0cdbc758",
+      "readme": "# Blender 助手\n\n把本机 Blender 接进 Hana。模型可以直接看视口、跑 bpy 代码、读场景结构、搜索参数、做判断。\n\n## 它解决什么\n\n给 Blender 加 AI，难点不在模型，在**通道**：Blender 的所有 bpy 操作必须在主线程跑，外部进程直接调会崩或静默失效；而 Hana App 的 AppHost 默认拒绝 raw socket、子进程与任意网络。\n\n## 架构\n\n三段式：Blender addon 起本地 TCP 服务 → 受管 Node 中继翻译协议 → Hana 工具面。\n\n中继是受管 runtime，宿主逐次授予权限，App 主进程永远拿不到 socket 句柄。单 TCP 连接而非连接池，因为 addon 的应答没有帧分隔符，且命令在 addon 侧全局串行。\n\n## 30+ 个动作\n\n一个 `blender` 工具，`action` 选动作。基础（doctor / see / view / do / scene / object / raw）、搜索与判定（loop / plan / txn）、产出（render / channel / assets / headless / runs）、质量（qc / deliver / audit / perf / generator / motion / preset）、通道管理（lease / worker / job）。\n\nview 会自动算相机距离（按场景包围盒与镜头视角反推），也能从任意方位取景；默认不把视口叠加层拍进图。\n\n## 站在谁的肩膀上\n\n**这个 App 的大部分能力来自上游项目。**\n\n- [sixtysevenlf/dsh-blender-plugin](https://github.com/sixtysevenlf/dsh-blender-plugin)（BSD-3-Clause）—— 能力族主体：契约层、规划器、内环搜索、事务、QC、生成器、机构\n- [ahujasid/mcp-for-blender](https://github.com/ahujasid/blender-mcp)（MIT）—— Blender 侧 TCP 通道与 bpy 主线程执行\n- [RobLe3/cc-blender-skill](https://github.com/RobLe3/cc-blender-skill) 与 [arjun988/blender-skills](https://github.com/arjun988/blender-skills)（均 MIT）—— 随包建模技能的方法论来源\n\n本项目的改动集中在把直连通道改造成受管 runtime 的形态，以及接进 Hana 的工具面与卡片。\n\n## 安全\n\n带受管中继的多道闸：调用方密钥经 argv 末位传入不落盘、Host/浏览器指纹、方法分级（405）、请求格式（415）、参数绑定（/deliver 的路径净化）；免鉴权面只开给只读路径。\n\n2026-11 安全审查后新增 **G0 —— Blender addon 的 `127.0.0.1:9876` 入口加调用方鉴权**：每条命令须携带正确令牌（常量时间比较），缺失 / 错误一律**拒绝执行**（覆盖 ping / get_addon_info 等全部命令）；未配置令牌时安全默认为拒绝。令牌由宿主每次启动生成、写入本用户临时目录令牌文件，不随包发布。\n## 许可\n\n自有代码 AGPL-3.0-or-later；上游组件许可各自保留，明细见仓库 LICENSE。"
     }
   ]
 }
