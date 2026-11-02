@@ -672,6 +672,12 @@
       "id": "neo-project-manage-v2",
       "repository": "Alex0921001/neo-project-manage",
       "publisher": "Alex0921001"
+    },
+    {
+      "kind": "app",
+      "id": "manman-island",
+      "repository": "mabzhang/manman-island",
+      "publisher": "mab"
     }
   ]
 }
