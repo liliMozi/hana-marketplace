@@ -702,6 +702,12 @@
       "id": "hana-draft-image-zoom",
       "repository": "moononnn/hanako--chakantupian",
       "publisher": "moononnn & 小花"
+    },
+    {
+      "kind": "app",
+      "id": "juzishu",
+      "repository": "StonyCatsama/juzishu",
+      "publisher": "你可以叫咱咕咕"
     }
   ]
 }
