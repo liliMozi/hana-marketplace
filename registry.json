@@ -708,6 +708,12 @@
       "id": "juzishu",
       "repository": "StonyCatsama/juzishu",
       "publisher": "你可以叫咱咕咕"
+    },
+    {
+      "kind": "app",
+      "id": "hana-deepseek-account",
+      "repository": "Nyasers/hana-deepseek-account",
+      "publisher": "Nyaser"
     }
   ]
 }
