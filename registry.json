@@ -684,6 +684,12 @@
       "id": "route-planner-amap",
       "repository": "1818GE/route-planner-amap",
       "publisher": "1818GE"
+    },
+    {
+      "kind": "app",
+      "id": "kc-system",
+      "repository": "SUDA133/hana-kc-system",
+      "publisher": "SUDA133"
     }
   ]
 }
