@@ -756,6 +756,12 @@
       "id": "hana-broke",
       "repository": "miaoyongxu/hana-broke",
       "publisher": "miaoyongxu"
+    },
+    {
+      "kind": "skill",
+      "id": "document-converter",
+      "repository": "headdshawnta-dot/hana-skills-public",
+      "publisher": "Allan"
     }
   ]
 }
