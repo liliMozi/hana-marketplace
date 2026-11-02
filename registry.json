@@ -696,6 +696,12 @@
       "id": "oh-releases",
       "repository": "Nyasers/oh-releases",
       "publisher": "Nyasers"
+    },
+    {
+      "kind": "skill",
+      "id": "hana-draft-image-zoom",
+      "repository": "moononnn/hanako--chakantupian",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
