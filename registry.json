@@ -678,6 +678,12 @@
       "id": "manman-island",
       "repository": "mabzhang/manman-island",
       "publisher": "mab"
+    },
+    {
+      "kind": "skill",
+      "id": "route-planner-amap",
+      "repository": "1818GE/route-planner-amap",
+      "publisher": "1818GE"
     }
   ]
 }
