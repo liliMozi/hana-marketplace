@@ -732,6 +732,12 @@
       "id": "comfyui-studio",
       "repository": "Elysia07291207/comfyui-studio",
       "publisher": "Elysia07291207"
+    },
+    {
+      "kind": "app",
+      "id": "peikan",
+      "repository": "openhanako-labs/openhanako-peikan",
+      "publisher": "Yuexiye"
     }
   ]
 }
