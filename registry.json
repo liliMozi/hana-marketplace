@@ -726,6 +726,12 @@
       "id": "hana-optimizer",
       "repository": "hayou2002/hana-optimizer",
       "publisher": "hayou2002"
+    },
+    {
+      "kind": "app",
+      "id": "comfyui-studio",
+      "repository": "Elysia07291207/comfyui-studio",
+      "publisher": "Elysia07291207"
     }
   ]
 }
