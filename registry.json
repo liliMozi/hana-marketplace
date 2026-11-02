@@ -586,7 +586,7 @@
     {
       "kind": "app",
       "id": "hanako-runtime-learner",
-      "repository": "326sun/Hanako-runtime-learner",
+      "repository": "326sun/runtime-learner",
       "publisher": "Sun"
     },
     {
