@@ -750,6 +750,12 @@
       "id": "hanako-localstrata",
       "repository": "hsz1273327/hanako-localstrata",
       "publisher": "hsz1273327"
+    },
+    {
+      "kind": "app",
+      "id": "hana-broke",
+      "repository": "miaoyongxu/hana-broke",
+      "publisher": "miaoyongxu"
     }
   ]
 }
