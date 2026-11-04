@@ -768,6 +768,12 @@
       "id": "nian-vault",
       "repository": "hayou2002/nian-vault",
       "publisher": "hayou2002"
+    },
+    {
+      "kind": "skill",
+      "id": "whisper-transcribe",
+      "repository": "headdshawnta-dot/hana-skill-whisper-transcribe",
+      "publisher": "Allan"
     }
   ]
 }
