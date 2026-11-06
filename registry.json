@@ -768,6 +768,12 @@
       "id": "nian-vault",
       "repository": "hayou2002/nian-vault",
       "publisher": "hayou2002"
+    },
+    {
+      "kind": "app",
+      "id": "skin-wardrobe",
+      "repository": "openhanako-labs/openhanako-skin-wardrobe",
+      "publisher": "Yuexiye"
     }
   ]
 }
