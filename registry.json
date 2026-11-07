@@ -768,6 +768,12 @@
       "id": "nian-vault",
       "repository": "hayou2002/nian-vault",
       "publisher": "hayou2002"
+    },
+    {
+      "kind": "recipe",
+      "id": "huahua-roaming",
+      "repository": "odonaldwillmert-hue/huahua-roaming",
+      "publisher": "温良恭俭庆小士~"
     }
   ]
 }
