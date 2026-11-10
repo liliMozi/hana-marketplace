@@ -767,7 +767,12 @@
       "kind": "app",
       "id": "nian-vault",
       "repository": "hayou2002/nian-vault",
-      "publisher": "hayou2002"
+      "publisher": "hayou2002"},
+    {
+      "kind": "skill",
+      "id": "download",
+      "repository": "1818GE/download-skill",
+      "publisher": "1818GE"
     }
   ]
 }
