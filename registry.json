@@ -769,5 +769,12 @@
       "repository": "hayou2002/nian-vault",
       "publisher": "hayou2002"
     }
+,
+    {
+      "kind": "recipe",
+      "id": "copper-ledger",
+      "repository": "Yuexiye/hana-marketplace",
+      "publisher": "月曦夜"
+    }
   ]
 }
