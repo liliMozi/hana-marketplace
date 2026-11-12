@@ -899,6 +899,20 @@
       "tag": "v0.6.11",
       "sha256": "415618c1383186ba83af6ea3ec4b46424deb303de6a08b4eca3a8318e97f16e7",
       "readme": "# 衣橱 · 皮肤库 (Skin Wardrobe)\n\n衣橱 · 皮肤库 —— Hana 的第三方皮肤管理器：导入、预览、应用 SKINPACK 皮肤包；工作台从零做新皮肤。\nA skin manager for Hana — import, preview and apply SKINPACK theme packs, or compose new skins from scratch in the built-in workbench.\n\n## 功能 / Features\n\n- **皮肤墙** — 搜索、分组、标签、收藏置顶；每张卡片带真实封面预览\n- **工作台** — 从零做皮肤：背景图（自动压缩）、四色派生配色、五套明暗预设、圆角 / 描边 / 毛玻璃滑杆、字体栈、终端 ANSI 16 色\n- **内置主题** — 安装即预装成品主题，开箱可用\n- **启停链路** — App 管库存与待办；「执行待办」由随包内置的执行器落宿主注册表（需 `app/process.spawn`），重启 Hana 生效\n\n## SKINPACK v2 格式\n\n一包一主题，四层结构，图片全部 data URI 内联（单文件分发）：\n\n| 层 | 包内存什么 |\n|---|---|\n| 配色 | 宿主词表变量（核心 8 项必须，其余自由） |\n| 背景 | 图片 + 遮罩强度 + 位置 |\n| 材质 | 仅参数（tier / rim / blur / edge），CSS 由通用层提供 |\n| 取景框 | 内置名或动效文件 |\n\n单文件 JSON 分发，`schema` 字段标识版本。\n\n## 安装 / Install\n\n1. 下载 Release 里的 `app-skin-wardrobe-<ver>.zip`\n2. Hana → 扩展 → 安装本地包\n3. 打开「衣橱 · 皮肤库」卡片\n\n## 架构 / Architecture\n\n```\nApp (Node child process)                内置执行器 (spawned node)\n├─ app-data/skins/    皮肤库存          ├─ assets/exec/wardrobe-exec.mjs  读待办\n├─ app-data/pending   待办队列  ──────► ├─ assets/exec/registry-ops.mjs   三处注册表增删\n└─ routes/*           前端 /execute    └─ 写宿主 themes/*.css + 注册表\n```\n\n> App 进程受 Node Permission Model 限制，默认不能 spawn。本 App 在 manifest 里声明\n> `app/process.spawn`，安装时需用户授权；获准后才能运行内置执行器。执行器是独立 node\n> 进程，负责字符串级手术（不重序列化压缩 bundle），写盘前过 `node --check` 语法闸。\n> 仓库开发布局下自动回落到 `../patch/scripts/wardrobe-exec.mjs`，无需改路径。\n> 注意：子进程会继承 `--permission`，且 fs 授权不会自动传给孙进程——所以执行器、\n> `registry-ops`、`node --check` 每一层都显式带 `--allow-fs-read/write`。\n\n## 致谢 / Credits\n\nSKINPACK 单包格式的设计参考了社区分享的 hana-skin 系列皮肤包（pack-luna5 / hana-skin-v0.1.5 等），仅作格式参考，未随本仓库分发。\n\n## License\n\n[AGPL-3.0](LICENSE)"
+    },
+    {
+      "kind": "app",
+      "id": "drawai-hana",
+      "tag": "v0.3.20",
+      "sha256": "c9adca303ca0a8dc293de3dbabbb06fa859f182e6e2b42c93d98f61fd40cba07",
+      "readme": "# DrawAI 画布\n\n**可编辑画布 + 动效视频生产线。**\n\n画一张图，再让它动起来。节点、连线、分镜、镜头卡都在同一张画布上，\nAI 和你编辑的是同一张图——不是「让 AI 生一张图」，是「一起把这件事做完」。\n\n## 它做什么\n\n- **画布**：原生 `.drawai` / `.drawio`，跟 drawio 同一套 mxfile 格式，旧文件直接打开\n- **动效**：15 种整片 MG 风格、124 张镜头动效卡，按分镜表落成 Remotion 工程\n- **出片**：4K 渲染（4096×4096 / 60fps / 300 秒以内），支持只重渲改动的那一段\n- **帧检**：黑场、静止、闪烁、响度、动能量——判「这段到底动没动」看动能量，不看覆盖率\n- **导出**：剪映可以接着剪的素材包\n\n## 三个具体的好处\n\n**渲染是异步的。** 点下去立刻返回任务号，你去干别的；问进度它会说「还要约 14 秒（54/360 帧）」，不是只给一个百分比。\n\n**可以只重渲一段。** 改了第 3 个镜头，就渲第 3 个镜头那 90 帧，不用整片重来。\n\n**先抽帧再写代码。** 风格有没有动感、你这段有没有动，都能在写场景代码之前看见——省掉一轮返工。\n\n## 适合谁\n\n做科普片头尾、产品演示、数据动效、教学分镜的人。\n不追求一键成片，但要求每一处都能改、改完能验证。\n\n## 首次使用\n\n第一次要联网一次：素材包（字体与媒体库）与 Remotion 运行时会自动下载，之后离线可用。"
+    },
+    {
+      "kind": "skill",
+      "id": "drawai-canvas-workflow",
+      "tag": "v0.3.20",
+      "sha256": "dcaa209c4eb073ce05b0ce5c721c790e8c35f8a7cc283c59db7f7eefae970631",
+      "readme": "# DrawAI 画布出片工作流\n\n用 DrawAI 画布 App 把想法做成动效视频的完整工作流。\n\n主路径六步：建画布与视频节点 → 选整片风格 → 写分镜表 → 落工程 → 抽帧定调 → 分段渲染/帧检/导出。\n\n四条硬经验：判「动没动」看 energy 不看覆盖率；节奏预算提前算（4K 约 2 秒/帧）；规格上限超了静默钳位；同一工程不能同时渲两次。\n\n含已知边界：TTS 合成器回退、色彩三标签需后期补、单风格约束、视频参考只到两帧快照。\n"
     }
   ]
 }
