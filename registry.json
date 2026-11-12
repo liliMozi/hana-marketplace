@@ -774,6 +774,18 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "drawai-hana",
+      "repository": "Elysia07291207/drawai-hana",
+      "publisher": "Elysia07291207"
+    },
+    {
+      "kind": "skill",
+      "id": "drawai-canvas-workflow",
+      "repository": "Elysia07291207/drawai-hana",
+      "publisher": "Elysia07291207"
     }
   ]
 }
