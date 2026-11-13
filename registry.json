@@ -775,5 +775,12 @@
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
     }
+,
+    {
+      "kind": "recipe",
+      "id": "copper-ledger",
+      "repository": "Yuexiye/hana-marketplace",
+      "publisher": "月曦夜"
+    }
   ]
 }
