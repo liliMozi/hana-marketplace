@@ -897,8 +897,8 @@
     {
       "kind": "recipe",
       "id": "copper-ledger",
-      "tag": "v1.0.0",
-      "sha256": "853ce7d5e28c4019ae87f41f86c67d43e3cf42b8b546addea2a472afef03edad"
+      "tag": "v1.0.1",
+      "sha256": "a03d020c62b4e25ac260973e7aac7473c5c17dad1ace5d1bf80e4bcfad9e9b6e"
     }
   ]
 }
