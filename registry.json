@@ -774,6 +774,12 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "openhanako-flomo",
+      "repository": "ji-or-ji/open-hanako-flomo",
+      "publisher": "ji-or-ji"
     }
   ]
 }
