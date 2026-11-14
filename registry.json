@@ -774,6 +774,12 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "hana-yunmusic",
+      "repository": "EKIRA-EK/hana-yunmusic",
+      "publisher": "异羽"
     }
   ]
 }
