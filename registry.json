@@ -774,6 +774,12 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "magpie-image-bridge",
+      "repository": "yueeeee8588/hana-magpie-image-bridge",
+      "publisher": "yueeeee8588"
     }
   ]
 }
