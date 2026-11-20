@@ -774,6 +774,12 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "shuo-fangyan",
+      "repository": "moononnn/Hana-Agent-shuofangyan",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
