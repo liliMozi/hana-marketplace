@@ -896,8 +896,8 @@
     {
       "kind": "app",
       "id": "skin-wardrobe",
-      "tag": "v0.6.11",
-      "sha256": "415618c1383186ba83af6ea3ec4b46424deb303de6a08b4eca3a8318e97f16e7",
+      "tag": "v0.7.12",
+      "sha256": "0b8c03dc9e098d77f14bfc923476395b78b848e9398f0cb7f187b00e110ff193",
       "readme": "# 衣橱 · 皮肤库 (Skin Wardrobe)\n\n衣橱 · 皮肤库 —— Hana 的第三方皮肤管理器：导入、预览、应用 SKINPACK 皮肤包；工作台从零做新皮肤。\nA skin manager for Hana — import, preview and apply SKINPACK theme packs, or compose new skins from scratch in the built-in workbench.\n\n## 功能 / Features\n\n- **皮肤墙** — 搜索、分组、标签、收藏置顶；每张卡片带真实封面预览\n- **工作台** — 从零做皮肤：背景图（自动压缩）、四色派生配色、五套明暗预设、圆角 / 描边 / 毛玻璃滑杆、字体栈、终端 ANSI 16 色\n- **内置主题** — 安装即预装成品主题，开箱可用\n- **启停链路** — App 管库存与待办；「执行待办」由随包内置的执行器落宿主注册表（需 `app/process.spawn`），重启 Hana 生效\n\n## SKINPACK v2 格式\n\n一包一主题，四层结构，图片全部 data URI 内联（单文件分发）：\n\n| 层 | 包内存什么 |\n|---|---|\n| 配色 | 宿主词表变量（核心 8 项必须，其余自由） |\n| 背景 | 图片 + 遮罩强度 + 位置 |\n| 材质 | 仅参数（tier / rim / blur / edge），CSS 由通用层提供 |\n| 取景框 | 内置名或动效文件 |\n\n单文件 JSON 分发，`schema` 字段标识版本。\n\n## 安装 / Install\n\n1. 下载 Release 里的 `app-skin-wardrobe-<ver>.zip`\n2. Hana → 扩展 → 安装本地包\n3. 打开「衣橱 · 皮肤库」卡片\n\n## 架构 / Architecture\n\n```\nApp (Node child process)                内置执行器 (spawned node)\n├─ app-data/skins/    皮肤库存          ├─ assets/exec/wardrobe-exec.mjs  读待办\n├─ app-data/pending   待办队列  ──────► ├─ assets/exec/registry-ops.mjs   三处注册表增删\n└─ routes/*           前端 /execute    └─ 写宿主 themes/*.css + 注册表\n```\n\n> App 进程受 Node Permission Model 限制，默认不能 spawn。本 App 在 manifest 里声明\n> `app/process.spawn`，安装时需用户授权；获准后才能运行内置执行器。执行器是独立 node\n> 进程，负责字符串级手术（不重序列化压缩 bundle），写盘前过 `node --check` 语法闸。\n> 仓库开发布局下自动回落到 `../patch/scripts/wardrobe-exec.mjs`，无需改路径。\n> 注意：子进程会继承 `--permission`，且 fs 授权不会自动传给孙进程——所以执行器、\n> `registry-ops`、`node --check` 每一层都显式带 `--allow-fs-read/write`。\n\n## 致谢 / Credits\n\nSKINPACK 单包格式的设计参考了社区分享的 hana-skin 系列皮肤包（pack-luna5 / hana-skin-v0.1.5 等），仅作格式参考，未随本仓库分发。\n\n## License\n\n[AGPL-3.0](LICENSE)"
     }
   ]
