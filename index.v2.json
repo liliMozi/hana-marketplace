@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "sourceId": "official-global",
   "name": "Hana Global Market",
-  "publishedAt": "2026-11-25T19:15:47.666Z",
+  "publishedAt": "2026-11-25T19:18:13.742Z",
   "items": [
     {
       "kind": "app",
@@ -4916,6 +4916,25 @@
         "downloads": 876
       },
       "readme": "# video-summarizer\n\n一键总结视频内容。丢一个视频链接进来，自动提取字幕 / 转录音频，输出结构化摘要数据供 AI Agent 整理成最终总结。\n\n一个为 AI 助手（DSharness、HanaAgent、workbuddy等）设计的 agent skill：`SKILL.md` 描述触发条件与工作流，`scripts/video-summary.py` 负责下载与转录。\n\n## 功能\n\n- 平台检测：Bilibili、YouTube、抖音、TikTok、小红书、微博、腾讯视频、爱奇艺、优酷、芒果TV、西瓜视频、快手、搜狐、Vimeo、Twitch、Twitter/X、Instagram、Facebook、Netflix，其余交给 yt-dlp 的通用提取器\n- 优先尝试字幕（Bilibili 需 Referer；YouTube 自动字幕最快）\n- 无字幕时自动降级为 Whisper 转录音频（base / turbo 等模型可选）\n- 反爬平台自动携带 cookies：显式 `--cookies` 文件优先，其次自动探测 Chrome / Edge / Firefox\n- 输出 JSON：`metadata`（标题/UP主/时长）+ `transcript`（转录全文）+ `summary_prompt`（预组装好的总结提示词）\n\n## 用法\n\n```bash\n# 默认 turbo 模型（识别率高，首次需下载 ~1.5GB）\npython scripts/video-summary.py <video-url>\n\n# 指定更快的模型\npython scripts/video-summary.py <video-url> base     # 快，~140MB\npython scripts/video-summary.py <video-url> small\npython scripts/video-summary.py <video-url> medium\npython scripts/video-summary.py <video-url> turbo    # 默认，最准\n\n# 显式传入 cookies 文件（Netscape 格式），绕过反爬\npython scripts/video-summary.py <video-url> --cookies cookies.txt\n```\n\nAgent 读取输出 JSON 中的 `summary_prompt`，按以下结构产出最终总结：\n\n- 标题与来源\n- 核心内容概览（2-3 句）\n- 关键要点（编号，各附简述）\n- 值得注意的细节 / 金句（如有）\n\n## 平台兼容性（实测，2026-08-21）\n\n| 平台 | 无 cookies | 说明 |\n| --- | --- | --- |\n| Bilibili | ❌ 需 cookies | HTTP 412 风控，带上浏览器 cookies 即可 |\n| YouTube | ❌ 需 cookies | \"Sign in to confirm you're not a bot\" 验证 |\n| 抖音 Douyin | ❌ 需 cookies | 反爬严格，必须 cookies |\n| TikTok | ❌ 需 cookies | 与抖音同源反爬 |\n| 优酷 Youku | ✅ 可用 | 裸奔可提取 |\n| 芒果TV | ✅ 可用 | 裸奔可提取（海外 IP 可能触发地区限制） |\n| 腾讯视频 | ✅ 可用（部分） | 免费视频可提取，会员内容需登录 |\n| 爱奇艺 | ⚠️ 不稳定 | 部分链接提取失败，建议带 cookies |\n| 搜狐 | ⚠️ 不稳定 | 部分链接提取失败 |\n| 小红书 | ❌ 需 cookies | 反爬严格 |\n| 微博 | ⚠️ 视链接 | 部分视频可提取 |\n| Vimeo | ❌ 需登录 | 需账号 cookies |\n| Twitch | ⚠️ 视内容 | 公开 VOD/clip 可提取 |\n| Twitter/X、Instagram、Facebook、Netflix | ❌ 需登录 | 必须 cookies |\n\n**结论**：绝大多数主流平台需要 cookies。推荐为经常使用的平台准备好 Netscape 格式 cookies 文件，通过 `--cookies` 传入。\n\n### 获取 cookies 文件\n\n1. Chrome / Edge 安装 cookie 导出扩展（如 \"Get cookies.txt LOCALLY\"）\n2. 打开目标平台并登录，点击扩展导出 cookies.txt\n3. 传给脚本：`python scripts/video-summary.py <url> --cookies cookies.txt`\n\n脚本也会尝试自动读取浏览器 cookies（`yt-dlp --cookies-from-browser`），但新版 Chrome/Edge 的加密 cookie 常导致提取失败（yt-dlp issue #10927/#7271），因此显式文件更可靠。\n\n## 依赖\n\n- Python 3.8+\n- `yt-dlp`（建议 2026.08 之后版本）\n- `ffmpeg`（PATH 中可用）\n- `openai-whisper`（`pip install openai-whisper`）\n\n## 已知限制\n\n- 无字幕视频走 Whisper 转录，时长与音频质量直接影响耗时；20 分钟以内的视频通常 2-15 分钟内完成（base 快，turbo 慢）\n- 脚本超时上限 900 秒，长视频建议分段\n- 会员/付费内容即使有 cookies 也可能无法提取\n\n## 许可\n\nMIT\n"
+    },
+    {
+      "kind": "skill",
+      "id": "whisper-transcribe",
+      "name": "whisper-transcribe",
+      "publisher": "Allan",
+      "description": "用本地 mlx-whisper 把音频（m4a / mp3 / wav / flac）转成文字，可选接着整理成会议纪要。仅支持 Apple Silicon；不做说话人分离，也不做实时麦克风流式转写。模型首次通过 modelscope 下载，之后走本地缓存、不再联网。",
+      "version": "0.0.0",
+      "permissions": [],
+      "archive": {
+        "url": "https://github.com/headdshawnta-dot/hana-skill-whisper-transcribe/releases/download/whisper-transcribe-v1.0.0/skill-whisper-transcribe-74f8464595d9dffbdc95db982de21210bb0e022505455075cefae28b4667b10b.zip",
+        "sha256": "74f8464595d9dffbdc95db982de21210bb0e022505455075cefae28b4667b10b",
+        "size": 5230,
+        "format": "zip"
+      },
+      "repository": "https://github.com/headdshawnta-dot/hana-skill-whisper-transcribe",
+      "stats": {
+        "downloads": 6
+      }
     }
   ]
 }
