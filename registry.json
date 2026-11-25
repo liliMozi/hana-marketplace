@@ -786,6 +786,12 @@
       "id": "download",
       "repository": "1818GE/download-skill",
       "publisher": "1818GE"
+    },
+    {
+      "kind": "app",
+      "id": "blender-bridge",
+      "repository": "openhanako-labs/openhanako-blender-bridge",
+      "publisher": "Yuexiye"
     }
   ]
 }
