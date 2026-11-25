@@ -774,13 +774,18 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
-    }
-,
+    },
     {
       "kind": "recipe",
       "id": "copper-ledger",
       "repository": "Yuexiye/hana-marketplace",
       "publisher": "月曦夜"
+    },
+    {
+      "kind": "skill",
+      "id": "whisper-transcribe",
+      "repository": "headdshawnta-dot/hana-skill-whisper-transcribe",
+      "publisher": "Allan"
     }
   ]
 }
