@@ -786,6 +786,12 @@
       "id": "whisper-transcribe",
       "repository": "headdshawnta-dot/hana-skill-whisper-transcribe",
       "publisher": "Allan"
+    },
+    {
+      "kind": "skill",
+      "id": "download",
+      "repository": "1818GE/download-skill",
+      "publisher": "1818GE"
     }
   ]
 }
