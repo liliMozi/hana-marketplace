@@ -754,7 +754,7 @@
     {
       "kind": "skill",
       "id": "document-converter",
-      "repository": "headdshawnta-dot/hana-skills-public",
+      "repository": "headdshawnta-dot/hana-skill-document-converter",
       "publisher": "Allan"
     },
     {
