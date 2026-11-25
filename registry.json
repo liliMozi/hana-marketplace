@@ -774,6 +774,12 @@
       "id": "skin-wardrobe",
       "repository": "openhanako-labs/openhanako-skin-wardrobe",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "pc-status",
+      "repository": "ji-or-ji/hanako-pc-status",
+      "publisher": "ji-or-ji"
     }
   ]
 }
