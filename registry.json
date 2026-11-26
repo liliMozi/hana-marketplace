@@ -822,6 +822,12 @@
       "id": "deepseek-tools",
       "repository": "ji-or-ji/hana-deepseek-tools",
       "publisher": "ji-or-ji"
+    },
+    {
+      "kind": "app",
+      "id": "shuo-fangyan",
+      "repository": "moononnn/Hana-Agent-shuofangyan",
+      "publisher": "moononnn & 小花"
     }
   ]
 }
