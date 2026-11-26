@@ -804,6 +804,12 @@
       "id": "magpie-image-bridge",
       "repository": "yueeeee8588/hana-magpie-image-bridge",
       "publisher": "yueeeee8588"
+    },
+    {
+      "kind": "recipe",
+      "id": "huahua-roaming",
+      "repository": "odonaldwillmert-hue/huahua-roaming",
+      "publisher": "温良恭俭庆小士~"
     }
   ]
 }
