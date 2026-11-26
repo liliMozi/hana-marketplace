@@ -798,6 +798,12 @@
       "id": "mail",
       "repository": "mabzhang/mail",
       "publisher": "Mail"
+    },
+    {
+      "kind": "app",
+      "id": "magpie-image-bridge",
+      "repository": "yueeeee8588/hana-magpie-image-bridge",
+      "publisher": "yueeeee8588"
     }
   ]
 }
