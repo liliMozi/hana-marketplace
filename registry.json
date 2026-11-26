@@ -816,6 +816,12 @@
       "id": "qq-file-export",
       "repository": "1818GE/qq-file-export",
       "publisher": "1818GE"
+    },
+    {
+      "kind": "app",
+      "id": "deepseek-tools",
+      "repository": "ji-or-ji/hana-deepseek-tools",
+      "publisher": "ji-or-ji"
     }
   ]
 }
