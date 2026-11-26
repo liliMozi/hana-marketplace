@@ -939,6 +939,13 @@
       "tag": "v1.0.0",
       "sha256": "9959898be049cb90c36925ed1f1e6df480638176609d963f957fddc2b34bc247",
       "readme": "# 花花漫游 · 国风漫游名片\n\n赏曲、时事、书籍、自由探索，带真实来源的国风来信。\n\n## 功能\n\n- 四个漫游方向：赏曲、时事、书籍、自由探索\n- 青绿山水意境画 + 朱砂印章 + Hana 控件风格\n- 真实检索、来源链接、可回指\n- 赏曲可选联动 Hana Audio Player（`hanako-audio-player`）\n\n## 音乐联动\n\n已安装 Hana Audio Player 时，赏曲名片显示「播放」按钮；点击后交给 App 处理播放。未安装或工具不可用时，名片保持只读（画作、介绍、来源链接），不显示播放按钮。\n\n## 许可\n\nApache-2.0（Hana Card Style CSS 部分）+ 作品自有内容。GPT 生成的意境插画与印章不代表真实场景。\n"
+    },
+    {
+      "kind": "skill",
+      "id": "qq-file-export",
+      "tag": "v1.0.0",
+      "sha256": "368c7142c4ad1d4e20d5506850856617112df957f61544f5bc9e3d27e3662d74",
+      "readme": "# qq-file-export\n\n把别人通过 QQ 发来的文件（PDF / 压缩包 / 文档 / 字幕 / 图片）从本机 QQ 客户端导出到本地工作区。QQ 的文件消息里不含可用的下载地址和 rkey，CDN 直连和纯命令行通道都已验证走不通，唯一可行的是驱动 QQ 客户端的 GUI 把文件「另存为」下来；这个包把那条路径固化成可复用的七步 SOP、实战踩坑清单、三个参数化的 PowerShell 脚本，以及一个只依赖标准库的环境自检脚本。\n\n## 快速开始\n\n1. **安装**：把本目录复制到 `~/.hanako/skills/qq-file-export/`，新开一个会话。详见 [setup-guide.md](setup-guide.md)。\n2. **确认依赖**：windows-mcp 连接器需为 `running`，本机 QQ 客户端需已登录。\n3. **自检**：\n\n   ```powershell\n   python check_environment.py\n   ```\n\n   打印就绪清单，全部就绪退出码 `0`，任一项缺失退出码 `1`。\n4. **触发**：用下面的任意一句触发语说出需求，Agent 会按 [references/sop.md](references/sop.md) 走完整流程。\n\n## 触发语\n\n- 我在 QQ 发了个文件\n- 从 QQ 下载这个文件\n- 把 QQ 收到的文件拿下来\n- QQ 文件另存为\n- 导出 QQ 文件\n- 读取 QQ 发来的文件\n- QQ 里那个 srt / pdf / 压缩包\n\n以下情况**不应**触发本技能：QQ 好友申请管理、撤回消息、导出聊天记录成表格、QQ 表情包保存。\n\n## 脚本\n\n| 脚本 | 用途 |\n|---|---|\n| `scripts/restart_qq.ps1` | 重启 QQ 进程，修复「僵尸面板」（列表陈旧 + 点击失灵 + UI 树为空）。默认停止后等 4 秒再启动。 |\n| `scripts/verify_file_bytes.ps1` | 打印文件 Length 与 SHA256，与 QQ 消息记录里的字节数对账。可传 `-ExpectedBytes` 直接判定并返回退出码。 |\n| `scripts/crop_screenshot.ps1` | 用 System.Drawing 裁剪屏幕区域，整屏截图难以确定文件卡片坐标时做毫米级核准。 |\n\n三个脚本都带 `param` 块，不写死任何机器路径。\n\n## 工作流程七步\n\n1. 判断 QQ 主面板是否为「僵尸面板」，是则重启进程\n2. 看屏（snapshot），记住 UI 树里的屏幕坐标\n3. 把 QQ 切到前台\n4. 搜索对方 QQ 号\n5. 打开目标会话\n6. 定位文件气泡，必要时裁剪局部区域核准坐标\n7. 右键 → 另存为 → 剪贴板粘贴完整路径 → 保存\n\n落盘后必须核对字节数：QQ 消息 protobuf `40800` 里 field `45405` 的 varint 就是发送方的文件字节数。\n\n## 目录结构\n\n```\nqq-file-export/\n├── SKILL.md                  # 技能入口：触发条件、流程、坑清单\n├── README.md                 # 本文件\n├── LICENSE                   # MIT\n├── setup-guide.md            # 安装、依赖说明、降级路径\n├── skill-dependencies.json   # 运行期依赖声明\n├── check_environment.py      # 环境自检（仅标准库）\n├── references/\n│   └── sop.md                # 完整操作 SOP\n└── scripts/\n    ├── restart_qq.ps1\n    ├── verify_file_bytes.ps1\n    └── crop_screenshot.ps1\n```\n\n## 不成立的通道\n\n写在这里是为了省下后来者重复验证的时间：\n\n- **CDN 直连**：文件消息的 `40800` 不含下载 URL / rkey，只有图片消息内嵌 `multimedia.nt.qq.com.cn/download?...&rkey=...`。\n- **纯命令行通道**：目前判断不存在。\n\n## 许可\n\nMIT，见 [LICENSE](LICENSE)。\n"
     }
   ]
 }

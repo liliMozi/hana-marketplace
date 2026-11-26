@@ -810,6 +810,12 @@
       "id": "huahua-roaming",
       "repository": "odonaldwillmert-hue/huahua-roaming",
       "publisher": "温良恭俭庆小士~"
+    },
+    {
+      "kind": "skill",
+      "id": "qq-file-export",
+      "repository": "1818GE/qq-file-export",
+      "publisher": "1818GE"
     }
   ]
 }
