@@ -792,6 +792,12 @@
       "id": "blender-bridge",
       "repository": "openhanako-labs/openhanako-blender-bridge",
       "publisher": "Yuexiye"
+    },
+    {
+      "kind": "app",
+      "id": "mail",
+      "repository": "mabzhang/mail",
+      "publisher": "Mail"
     }
   ]
 }
