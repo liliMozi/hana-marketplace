@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "sourceId": "official-global",
   "name": "Hana Global Market",
-  "publishedAt": "2026-11-26T00:51:20.103Z",
+  "publishedAt": "2026-11-26T00:53:48.005Z",
   "items": [
     {
       "kind": "app",
@@ -4937,6 +4937,26 @@
         "downloads": 740
       },
       "readme": "# Hana Coder\n\n四组开发者卡片，统一使用 Hana 组件和原生暗调插画：\n\n1. **Issue**：分组确认、修复汇报。\n2. **PR**：列表、详情、来源、简介与按提交版本审阅。\n3. **工作树**：分支与目录状态、用途简介、半自动刷新。\n4. **命令面板**：单行命令、独立播放按钮、自然语言添加。\n\n## 使用\n\n通过 Hana 的配方管理安装本目录或 `.recipe` 归档。安装后直接对 Agent 说：\n\n- 「看看这个仓库有哪些工作树。」\n- 「把最近七天的 Issue 整理一下。」\n- 「看看待审 PR。」\n- 「审阅 PR #42，重点看看附件兼容。」\n- 「给这个项目做个常用命令面板。」\n\nAgent 自动选择模板、读取真实数据并生成卡片，无需用户记模板名。单说「打开 Hana Coder」默认显示当前仓库的工作树。\n\n## 环境\n\n本地状态需要 Git 与 Python 3。GitHub 数据需要已登录且有读取权限的 GitHub CLI（gh）。卡片刷新、提交和执行需 Hana 宿主能力及授权；独立浏览器只能看快照，不能凭导出的卡片获得仓库操作权限。\n\n源模板中的示例数据仅用于离线展示；实际调用必须先采集目标仓库，不将示例当真实结果。\n\n## 开发验证\n\n使用 Node.js 24.15.0（或兼容的 Node 24）、Python 3 和 Git：\n\n```sh\nnpm ci --ignore-scripts\nnpm test\n```\n\nGitHub Actions 运行相同检查。普通使用不需要安装这些开发依赖。\n\n公开配方 ID 为 `hana-coder`。内部事件保留 `hana-corder.*` 命名空间，以保持既有事件处理契约；它不是另一个安装依赖。\n\n## 文件\n\n- `SKILL.md`：入口路由、卡片选择与总体规则。\n- `references/`：摘要、审阅、Issue 协作、命令和事件回写规范。\n- `assets/`：五个 HTML 模板、共享组件 CSS、四张 Hero。\n- `scripts/`：只读采集与绑定明确仓库的卡片准备脚本。\n- `tests/`：定向行为验证。\n\n模板含精简提交指令，配方含完整操作规程。用户批注不会自动成为外部写入授权；审阅不会自动发 GitHub review，刷新不会自动合并或修改代码。\n"
+    },
+    {
+      "kind": "recipe",
+      "id": "huahua-roaming",
+      "name": "huahua-roaming",
+      "publisher": "温良恭俭庆小士~",
+      "description": "制作花花漫游国风名片，提供赏曲、时事、书籍、自由探索四个方向及带真实来源的漫游来信。用户说派花花去旅行、去漫游、推荐音乐并带回名片、音乐/新闻/书籍明信片时使用。赏曲名片可选联动已安装的 Hana Audio Player；不可用时保持只读。",
+      "version": "0.0.0",
+      "permissions": [],
+      "archive": {
+        "url": "https://github.com/odonaldwillmert-hue/huahua-roaming/releases/download/v1.0.0/recipe-huahua-roaming-9959898be049cb90c36925ed1f1e6df480638176609d963f957fddc2b34bc247.zip",
+        "sha256": "9959898be049cb90c36925ed1f1e6df480638176609d963f957fddc2b34bc247",
+        "size": 2145986,
+        "format": "zip"
+      },
+      "repository": "https://github.com/odonaldwillmert-hue/huahua-roaming",
+      "readme": "# 花花漫游 · 国风漫游名片\n\n赏曲、时事、书籍、自由探索，带真实来源的国风来信。\n\n## 功能\n\n- 四个漫游方向：赏曲、时事、书籍、自由探索\n- 青绿山水意境画 + 朱砂印章 + Hana 控件风格\n- 真实检索、来源链接、可回指\n- 赏曲可选联动 Hana Audio Player（`hanako-audio-player`）\n\n## 音乐联动\n\n已安装 Hana Audio Player 时，赏曲名片显示「播放」按钮；点击后交给 App 处理播放。未安装或工具不可用时，名片保持只读（画作、介绍、来源链接），不显示播放按钮。\n\n## 许可\n\nApache-2.0（Hana Card Style CSS 部分）+ 作品自有内容。GPT 生成的意境插画与印章不代表真实场景。\n",
+      "stats": {
+        "downloads": 4
+      }
     },
     {
       "kind": "skill",
