@@ -828,6 +828,12 @@
       "id": "shuo-fangyan",
       "repository": "moononnn/Hana-Agent-shuofangyan",
       "publisher": "moononnn & 小花"
+    },
+    {
+      "kind": "app",
+      "id": "hana-yunmusic",
+      "repository": "EKIRA-EK/hana-yunmusic",
+      "publisher": "异羽"
     }
   ]
 }
