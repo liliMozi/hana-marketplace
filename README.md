@@ -70,10 +70,12 @@ approval did not change are reused without downloading them again. Fix the
 reported enrollment, approval, or release, then rerun the workflow.
 
 Each published item carries `stats.downloads`: the total GitHub download
-count of its published ZIP files, read from release metadata. A daily scheduled
-run refreshes these counts without downloading packages again. Hana uses them
-only to sort the market. If a count cannot be read, the workflow keeps the
-previous value and prints a warning.
+count of its published ZIP files, read from release metadata, and `listedAt`:
+the timestamp when the extension was first listed under that repository (kept
+across version updates). A daily scheduled run refreshes download counts
+without downloading packages again. Hana uses them only to sort the market. If
+a count cannot be read, the workflow keeps the previous value and prints a
+warning.
 
 Catalog updates never install updates automatically in Hana. The mainland
 China catalog is reviewed and hosted independently; this repository publishes

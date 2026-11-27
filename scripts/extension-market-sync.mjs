@@ -26,6 +26,216 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
+// shared/edition-identity-core.cjs
+var require_edition_identity_core = __commonJS({
+  "shared/edition-identity-core.cjs"(exports, module) {
+    "use strict";
+    var K = new Uint32Array([
+      1116352408,
+      1899447441,
+      3049323471,
+      3921009573,
+      961987163,
+      1508970993,
+      2453635748,
+      2870763221,
+      3624381080,
+      310598401,
+      607225278,
+      1426881987,
+      1925078388,
+      2162078206,
+      2614888103,
+      3248222580,
+      3835390401,
+      4022224774,
+      264347078,
+      604807628,
+      770255983,
+      1249150122,
+      1555081692,
+      1996064986,
+      2554220882,
+      2821834349,
+      2952996808,
+      3210313671,
+      3336571891,
+      3584528711,
+      113926993,
+      338241895,
+      666307205,
+      773529912,
+      1294757372,
+      1396182291,
+      1695183700,
+      1986661051,
+      2177026350,
+      2456956037,
+      2730485921,
+      2820302411,
+      3259730800,
+      3345764771,
+      3516065817,
+      3600352804,
+      4094571909,
+      275423344,
+      430227734,
+      506948616,
+      659060556,
+      883997877,
+      958139571,
+      1322822218,
+      1537002063,
+      1747873779,
+      1955562222,
+      2024104815,
+      2227730452,
+      2361852424,
+      2428436474,
+      2756734187,
+      3204031479,
+      3329325298
+    ]);
+    function sha256Hex(text) {
+      const data = new TextEncoder().encode(String(text));
+      const bitLength = data.length * 8;
+      const blocks = Math.ceil((data.length + 9) / 64);
+      const bytes = new Uint8Array(blocks * 64);
+      bytes.set(data);
+      bytes[data.length] = 128;
+      const view = new DataView(bytes.buffer);
+      view.setUint32(bytes.length - 8, Math.floor(bitLength / 4294967296));
+      view.setUint32(bytes.length - 4, bitLength >>> 0);
+      const h = new Uint32Array([1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225]);
+      const w = new Uint32Array(64);
+      const rotr = (x, n) => x >>> n | x << 32 - n;
+      for (let offset = 0; offset < bytes.length; offset += 64) {
+        for (let i = 0; i < 16; i += 1) w[i] = view.getUint32(offset + i * 4);
+        for (let i = 16; i < 64; i += 1) {
+          const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ w[i - 15] >>> 3;
+          const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ w[i - 2] >>> 10;
+          w[i] = w[i - 16] + s0 + w[i - 7] + s1 >>> 0;
+        }
+        let [a, b, c, d, e, f, g, hh] = h;
+        for (let i = 0; i < 64; i += 1) {
+          const t1 = hh + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + (e & f ^ ~e & g) + K[i] + w[i] >>> 0;
+          const t2 = (rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + (a & b ^ a & c ^ b & c) >>> 0;
+          hh = g;
+          g = f;
+          f = e;
+          e = d + t1 >>> 0;
+          d = c;
+          c = b;
+          b = a;
+          a = t1 + t2 >>> 0;
+        }
+        h[0] += a;
+        h[1] += b;
+        h[2] += c;
+        h[3] += d;
+        h[4] += e;
+        h[5] += f;
+        h[6] += g;
+        h[7] += hh;
+      }
+      return Array.from(h, (word) => word.toString(16).padStart(8, "0")).join("");
+    }
+    var URL_KEYS = /* @__PURE__ */ new Set(["accountBaseUrl", "desktopFeedUrl", "officialCnMarketUrl"]);
+    function digestOfficialValue(key, value) {
+      const normalized = URL_KEYS.has(key) ? value : value.toLowerCase();
+      return sha256Hex(`hana-official-identity-v1
+${key}
+${normalized}`);
+    }
+    function matchesOfficialValue(key, value, digests) {
+      const reserved = digests[key];
+      if (!Array.isArray(reserved)) throw new Error(`unknown official identity key: ${key}`);
+      if (typeof value !== "string" || value.length === 0) return false;
+      return reserved.includes(digestOfficialValue(key, value));
+    }
+    function canonical(value) {
+      if (value === null || typeof value !== "object") return JSON.stringify(value);
+      if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
+      return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonical(value[key])}`).join(",")}}`;
+    }
+    function identitySubset(config) {
+      const updates = config && config.updates && typeof config.updates === "object" ? config.updates : {};
+      const services = config && config.services && typeof config.services === "object" ? config.services : {};
+      const sources = config?.market?.sources && typeof config.market.sources === "object" ? config.market.sources : {};
+      return {
+        id: config?.id,
+        kind: config?.kind,
+        displayName: config?.displayName,
+        desktop: config?.desktop,
+        services: { accountBaseUrl: services.accountBaseUrl, features: services.features },
+        market: { sources: { global: sources.global } },
+        modelCatalog: config?.modelCatalog,
+        updates: {
+          desktop: updates.desktop,
+          artifact: { channelBaseUrl: updates.artifact?.channelBaseUrl },
+          mobile: updates.mobile
+        }
+      };
+    }
+    function createPublicEditionIdentity({ updateSources, matchesOfficialValue: matchesOfficialValue2 }) {
+      const { PUBLIC_GITHUB_OWNER, PUBLIC_GITHUB_REPO, PUBLIC_GITHUB_RELEASE_BASE } = updateSources;
+      const PUBLIC_EDITION2 = Object.freeze({
+        id: "hana-global",
+        kind: "official-global",
+        displayName: "Hana",
+        desktop: Object.freeze({
+          appId: "com.hanako.app",
+          productName: "HanaAgent",
+          dataDirName: ".hanako",
+          devDataDirName: ".hanako-dev"
+        }),
+        services: Object.freeze({
+          accountBaseUrl: null,
+          features: Object.freeze({
+            relay: false,
+            attachments: false,
+            feedback: false,
+            platformModels: false,
+            activityReporting: false,
+            usageReporting: false
+          })
+        }),
+        market: Object.freeze({
+          sources: Object.freeze({
+            global: "https://raw.githubusercontent.com/liliMozi/hana-marketplace/main/index.v2.json"
+          })
+        }),
+        modelCatalog: Object.freeze({
+          url: "https://github.com/liliMozi/hana-model-catalog/releases/latest/download/model-catalog.v2.json"
+        }),
+        updates: Object.freeze({
+          desktop: Object.freeze({
+            feedUrl: PUBLIC_GITHUB_RELEASE_BASE,
+            digestBaseUrl: `${PUBLIC_GITHUB_RELEASE_BASE}/{tag}/{asset}`,
+            installerPageUrl: "https://openhanako.com/",
+            releasesPageUrl: `https://github.com/${PUBLIC_GITHUB_OWNER}/${PUBLIC_GITHUB_REPO}/releases`
+          }),
+          artifact: Object.freeze({
+            channelBaseUrl: `${PUBLIC_GITHUB_RELEASE_BASE}/channels`
+          }),
+          mobile: Object.freeze({
+            versionBaseUrl: null,
+            expo: null
+          })
+        })
+      });
+      function hasPublicCnMarketSource(config) {
+        return matchesOfficialValue2("officialCnMarketUrl", config?.market?.sources?.cn);
+      }
+      function isPublicDesktopEdition2(config) {
+        return canonical(identitySubset(config)) === canonical(identitySubset(PUBLIC_EDITION2)) && hasPublicCnMarketSource(config);
+      }
+      return { PUBLIC_EDITION: PUBLIC_EDITION2, isPublicDesktopEdition: isPublicDesktopEdition2 };
+    }
+    module.exports = { sha256Hex, digestOfficialValue, matchesOfficialValue, createPublicEditionIdentity };
+  }
+});
+
 // shared/public-update-sources.cjs
 var require_public_update_sources = __commonJS({
   "shared/public-update-sources.cjs"(exports, module) {
@@ -148,128 +358,10 @@ var require_official_identity = __commonJS({
   "shared/official-identity.cjs"(exports, module) {
     "use strict";
     var { digests: DIGESTS } = require_official_identity_digests();
-    var K = new Uint32Array([
-      1116352408,
-      1899447441,
-      3049323471,
-      3921009573,
-      961987163,
-      1508970993,
-      2453635748,
-      2870763221,
-      3624381080,
-      310598401,
-      607225278,
-      1426881987,
-      1925078388,
-      2162078206,
-      2614888103,
-      3248222580,
-      3835390401,
-      4022224774,
-      264347078,
-      604807628,
-      770255983,
-      1249150122,
-      1555081692,
-      1996064986,
-      2554220882,
-      2821834349,
-      2952996808,
-      3210313671,
-      3336571891,
-      3584528711,
-      113926993,
-      338241895,
-      666307205,
-      773529912,
-      1294757372,
-      1396182291,
-      1695183700,
-      1986661051,
-      2177026350,
-      2456956037,
-      2730485921,
-      2820302411,
-      3259730800,
-      3345764771,
-      3516065817,
-      3600352804,
-      4094571909,
-      275423344,
-      430227734,
-      506948616,
-      659060556,
-      883997877,
-      958139571,
-      1322822218,
-      1537002063,
-      1747873779,
-      1955562222,
-      2024104815,
-      2227730452,
-      2361852424,
-      2428436474,
-      2756734187,
-      3204031479,
-      3329325298
-    ]);
-    function sha256Hex(text) {
-      const data = new TextEncoder().encode(String(text));
-      const bitLength = data.length * 8;
-      const blocks = Math.ceil((data.length + 9) / 64);
-      const bytes = new Uint8Array(blocks * 64);
-      bytes.set(data);
-      bytes[data.length] = 128;
-      const view = new DataView(bytes.buffer);
-      view.setUint32(bytes.length - 8, Math.floor(bitLength / 4294967296));
-      view.setUint32(bytes.length - 4, bitLength >>> 0);
-      const h = new Uint32Array([1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225]);
-      const w = new Uint32Array(64);
-      const rotr = (x, n) => x >>> n | x << 32 - n;
-      for (let offset = 0; offset < bytes.length; offset += 64) {
-        for (let i = 0; i < 16; i += 1) w[i] = view.getUint32(offset + i * 4);
-        for (let i = 16; i < 64; i += 1) {
-          const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ w[i - 15] >>> 3;
-          const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ w[i - 2] >>> 10;
-          w[i] = w[i - 16] + s0 + w[i - 7] + s1 >>> 0;
-        }
-        let [a, b, c, d, e, f, g, hh] = h;
-        for (let i = 0; i < 64; i += 1) {
-          const t1 = hh + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + (e & f ^ ~e & g) + K[i] + w[i] >>> 0;
-          const t2 = (rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + (a & b ^ a & c ^ b & c) >>> 0;
-          hh = g;
-          g = f;
-          f = e;
-          e = d + t1 >>> 0;
-          d = c;
-          c = b;
-          b = a;
-          a = t1 + t2 >>> 0;
-        }
-        h[0] += a;
-        h[1] += b;
-        h[2] += c;
-        h[3] += d;
-        h[4] += e;
-        h[5] += f;
-        h[6] += g;
-        h[7] += hh;
-      }
-      return Array.from(h, (word) => word.toString(16).padStart(8, "0")).join("");
-    }
-    var URL_KEYS = /* @__PURE__ */ new Set(["accountBaseUrl", "desktopFeedUrl", "officialCnMarketUrl"]);
-    function digestOfficialValue(key, value) {
-      const normalized = URL_KEYS.has(key) ? value : value.toLowerCase();
-      return sha256Hex(`hana-official-identity-v1
-${key}
-${normalized}`);
-    }
+    var core = require_edition_identity_core();
+    var { sha256Hex, digestOfficialValue } = core;
     function matchesOfficialValue(key, value, digests = DIGESTS) {
-      const reserved = digests[key];
-      if (!Array.isArray(reserved)) throw new Error(`unknown official identity key: ${key}`);
-      if (typeof value !== "string" || value.length === 0) return false;
-      return reserved.includes(digestOfficialValue(key, value));
+      return core.matchesOfficialValue(key, value, digests);
     }
     function isOfficialServiceHost(hostname, digests = DIGESTS) {
       const labels = String(hostname).toLowerCase().split(".");
@@ -281,92 +373,6 @@ ${normalized}`);
       return false;
     }
     module.exports = { OFFICIAL_IDENTITY_DIGESTS: DIGESTS, digestOfficialValue, matchesOfficialValue, isOfficialServiceHost, sha256Hex };
-  }
-});
-
-// shared/public-edition-identity.cjs
-var require_public_edition_identity = __commonJS({
-  "shared/public-edition-identity.cjs"(exports, module) {
-    "use strict";
-    var { PUBLIC_GITHUB_OWNER, PUBLIC_GITHUB_REPO, PUBLIC_GITHUB_RELEASE_BASE } = require_public_update_sources();
-    var { matchesOfficialValue } = require_official_identity();
-    var PUBLIC_EDITION = Object.freeze({
-      id: "hana-global",
-      kind: "official-global",
-      displayName: "Hana",
-      desktop: Object.freeze({
-        appId: "com.hanako.app",
-        productName: "HanaAgent",
-        dataDirName: ".hanako",
-        devDataDirName: ".hanako-dev"
-      }),
-      services: Object.freeze({
-        accountBaseUrl: null,
-        features: Object.freeze({
-          relay: false,
-          attachments: false,
-          asr: false,
-          feedback: false,
-          platformModels: false,
-          activityReporting: false,
-          usageReporting: false
-        })
-      }),
-      market: Object.freeze({
-        sources: Object.freeze({
-          global: "https://raw.githubusercontent.com/liliMozi/hana-marketplace/main/index.v2.json"
-        })
-      }),
-      modelCatalog: Object.freeze({
-        url: "https://github.com/liliMozi/hana-model-catalog/releases/latest/download/model-catalog.v2.json"
-      }),
-      updates: Object.freeze({
-        desktop: Object.freeze({
-          feedUrl: PUBLIC_GITHUB_RELEASE_BASE,
-          digestBaseUrl: `${PUBLIC_GITHUB_RELEASE_BASE}/{tag}/{asset}`,
-          installerPageUrl: "https://openhanako.com/",
-          releasesPageUrl: `https://github.com/${PUBLIC_GITHUB_OWNER}/${PUBLIC_GITHUB_REPO}/releases`
-        }),
-        artifact: Object.freeze({
-          channelBaseUrl: `${PUBLIC_GITHUB_RELEASE_BASE}/channels`
-        }),
-        mobile: Object.freeze({
-          versionBaseUrl: null,
-          expo: null
-        })
-      })
-    });
-    function canonical(value) {
-      if (value === null || typeof value !== "object") return JSON.stringify(value);
-      if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
-      return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonical(value[key])}`).join(",")}}`;
-    }
-    function identitySubset(config) {
-      const updates = config && config.updates && typeof config.updates === "object" ? config.updates : {};
-      const services = config && config.services && typeof config.services === "object" ? config.services : {};
-      const sources = config?.market?.sources && typeof config.market.sources === "object" ? config.market.sources : {};
-      return {
-        id: config?.id,
-        kind: config?.kind,
-        displayName: config?.displayName,
-        desktop: config?.desktop,
-        services: { accountBaseUrl: services.accountBaseUrl, features: services.features },
-        market: { sources: { global: sources.global } },
-        modelCatalog: config?.modelCatalog,
-        updates: {
-          desktop: updates.desktop,
-          artifact: { channelBaseUrl: updates.artifact?.channelBaseUrl },
-          mobile: updates.mobile
-        }
-      };
-    }
-    function hasPublicCnMarketSource(config) {
-      return matchesOfficialValue("officialCnMarketUrl", config?.market?.sources?.cn);
-    }
-    function isPublicDesktopEdition2(config) {
-      return canonical(identitySubset(config)) === canonical(identitySubset(PUBLIC_EDITION)) && hasPublicCnMarketSource(config);
-    }
-    module.exports = { PUBLIC_EDITION, isPublicDesktopEdition: isPublicDesktopEdition2 };
   }
 });
 
@@ -476,6 +482,13 @@ function isPlainObject(value) {
 function isNonEmptyString(value) {
   return typeof value === "string" && value.length > 0;
 }
+function isSafeMarketVersion(value) {
+  if (typeof value !== "string" || value.length === 0 || value.length > 512) return false;
+  if (value.includes("/") || value.includes("\\") || value.includes("..") || value.includes("\0")) return false;
+  if (!/^[A-Za-z0-9][A-Za-z0-9._+-]*$/.test(value)) return false;
+  if (value.endsWith(".")) return false;
+  return true;
+}
 function isStringArray(value) {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
@@ -523,7 +536,7 @@ function describePermission(permission, path2) {
 }
 function describeItemVersion(entry, path2) {
   if (!isPlainObject(entry)) return `${path2} must be an object`;
-  if (!isNonEmptyString(entry.version)) return `${path2}.version must be a non-empty string`;
+  if (!isSafeMarketVersion(entry.version)) return `${path2}.version must be a safe version string`;
   if (entry.minAppVersion !== void 0 && !isNonEmptyString(entry.minAppVersion)) {
     return `${path2}.minAppVersion must be a non-empty string`;
   }
@@ -555,7 +568,7 @@ function describeMarketItem(raw, path2) {
   if (!isNonEmptyString(raw.name)) return `${path2}.name must be a non-empty string`;
   if (!isNonEmptyString(raw.publisher)) return `${path2}.publisher must be a non-empty string`;
   if (typeof raw.description !== "string") return `${path2}.description must be a string`;
-  if (!isNonEmptyString(raw.version)) return `${path2}.version must be a non-empty string`;
+  if (!isSafeMarketVersion(raw.version)) return `${path2}.version must be a safe version string`;
   const archiveError = describeArchive(raw.archive, `${path2}.archive`);
   if (archiveError) return archiveError;
   if (!Array.isArray(raw.permissions)) return `${path2}.permissions must be an array`;
@@ -585,6 +598,9 @@ function describeMarketItem(raw, path2) {
   if (raw.stats !== void 0) {
     const statsError = describeStats(raw.stats, `${path2}.stats`);
     if (statsError) return statsError;
+  }
+  if (raw.listedAt !== void 0 && !isParseableDate(raw.listedAt)) {
+    return `${path2}.listedAt must be a parseable date string`;
   }
   return null;
 }
@@ -626,14 +642,14 @@ function validateMarketIndexV2(raw) {
 // shared/generated/edition.json
 var edition_default = {
   schemaVersion: 1,
-  id: "hana-global",
-  kind: "official-global",
-  displayName: "Hana",
+  id: "neutral",
+  kind: "custom",
+  displayName: "HANA",
   desktop: {
-    appId: "com.hanako.app",
-    productName: "HanaAgent",
-    dataDirName: ".hanako",
-    devDataDirName: ".hanako-dev"
+    appId: "org.example.hana",
+    productName: "HANA",
+    dataDirName: ".hana",
+    devDataDirName: ".hana-dev"
   },
   mobile: {
     name: "HANA",
@@ -647,7 +663,6 @@ var edition_default = {
     features: {
       relay: false,
       attachments: false,
-      asr: false,
       feedback: false,
       platformModels: false,
       activityReporting: false,
@@ -656,28 +671,23 @@ var edition_default = {
   },
   market: {
     sources: {
-      global: "https://raw.githubusercontent.com/liliMozi/hana-marketplace/main/index.v2.json",
-      cn: "https://extension-market-cn.hanaagent.workers.dev/extensions/index.v2.json"
+      global: null,
+      cn: null
     }
   },
   modelCatalog: {
-    url: "https://github.com/liliMozi/hana-model-catalog/releases/latest/download/model-catalog.v2.json"
+    url: null
   },
   updates: {
     desktop: {
-      feedUrl: "https://github.com/liliMozi/openhanako/releases/download",
-      digestBaseUrl: "https://github.com/liliMozi/openhanako/releases/download/{tag}/{asset}",
-      installerPageUrl: "https://openhanako.com/",
-      releasesPageUrl: "https://github.com/liliMozi/openhanako/releases"
+      feedUrl: null,
+      digestBaseUrl: null,
+      installerPageUrl: null,
+      releasesPageUrl: null
     },
     artifact: {
-      channelBaseUrl: "https://github.com/liliMozi/openhanako/releases/download/channels",
-      keyset: [
-        {
-          keyId: "2026a",
-          publicKey: "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEABxlmYzrnEDdrKL7lW+KQsvO5omvy8Wyuj1G3YIs7eFo=\n-----END PUBLIC KEY-----\n"
-        }
-      ]
+      channelBaseUrl: null,
+      keyset: []
     },
     mobile: {
       versionBaseUrl: null,
@@ -685,11 +695,60 @@ var edition_default = {
     }
   },
   serviceScope: "local-only",
-  profileHash: "286f0b03bb9211cf4d0f6701344278136beb05eb0216602792157378d41f3cbc"
+  profileHash: "0707eec8dde6b9f50783c71025f224dc4263608dd8317b204449462ce7cf0f38"
 };
 
+// shared/public-edition-identity.ts
+var import_edition_identity_core = __toESM(require_edition_identity_core(), 1);
+var import_public_update_sources = __toESM(require_public_update_sources(), 1);
+
+// shared/official-identity-digests.json with { type: 'json' }
+var official_identity_digests_default = {
+  version: 1,
+  digests: {
+    serviceDomain: [
+      "413a3f5ec7ebbd3eb24f52c1c8dfa23ccf9408b4a1c85c579a08242e7af74241"
+    ],
+    serviceSubdomainParent: [
+      "77f4c04063449b3c359a832068b322cf2c8fab876f7353b1d61a94410807f307"
+    ],
+    expoProjectId: [
+      "83ea0153d2ff7363ec82a92f4372a96c11fe8265f3c5ff91e249eb3753385ab5"
+    ],
+    expoOwner: [
+      "c9b8c56713ad457a05d05424094883d0a212e7e10b9d072012d1081aa53a659e"
+    ],
+    mobileName: [
+      "37338b9eabc79808e12215a6a983c3f2e6faffd929c0073e296c370bce9358cb"
+    ],
+    mobileSlug: [
+      "dfd46b51fae0cf4ccd33486529fc75d7b9880ef40123a8172fc9c3b0bb9a1025"
+    ],
+    mobileScheme: [
+      "91dba307babac20f8d08f097b03a1d7a8282c83404271a24a25a6da3f3b7315c"
+    ],
+    mobileBundleIdentifier: [
+      "33ed71cd12c5616e6cdb449db9f528f28a54abf611c5e2ea899f79eb4d4799e0"
+    ],
+    accountBaseUrl: [
+      "bcbf79f2058f33b503d26a24711653a8929bf4ad3b8342e4a29016b21c9a541d"
+    ],
+    desktopFeedUrl: [
+      "0615713d3781d0f55cfb8e2ce7e51fda6e1f970d565d8e167dcb470c92d56174"
+    ],
+    officialCnMarketUrl: [
+      "db6543fc4030aa9924607c2ef1ab823afe3fb696fba480a58c6852670e7a9f8b"
+    ]
+  }
+};
+
+// shared/public-edition-identity.ts
+var { PUBLIC_EDITION, isPublicDesktopEdition } = import_edition_identity_core.default.createPublicEditionIdentity({
+  updateSources: import_public_update_sources.default,
+  matchesOfficialValue: (key, value) => import_edition_identity_core.default.matchesOfficialValue(key, value, official_identity_digests_default.digests)
+});
+
 // shared/edition-config.ts
-var import_public_edition_identity = __toESM(require_public_edition_identity(), 1);
 function freeze(value) {
   if (value && typeof value === "object") {
     for (const child of Object.values(value)) freeze(child);
@@ -697,11 +756,45 @@ function freeze(value) {
   }
   return value;
 }
-var supportedKind = edition_default.kind === "custom" || edition_default.kind === "official-global" && (0, import_public_edition_identity.isPublicDesktopEdition)(edition_default);
-if (edition_default.schemaVersion !== 1 || !supportedKind || !/^[a-f0-9]{64}$/.test(edition_default.profileHash)) {
+function canonicalJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+}
+function sourceEditionOverride() {
+  const proc = globalThis.process;
+  const file = proc?.env?.HANA_SOURCE_EDITION_FILE;
+  if (file === void 0 || typeof proc?.versions?.node !== "string") return null;
+  if (typeof proc.getBuiltinModule !== "function") {
+    throw new Error("HANA_SOURCE_EDITION_FILE needs Node 22.3 or later (getBuiltinModule).");
+  }
+  const { createHash } = proc.getBuiltinModule("node:crypto");
+  const fs2 = proc.getBuiltinModule("node:fs");
+  const path2 = proc.getBuiltinModule("node:path");
+  const { fileURLToPath: fileURLToPath2 } = proc.getBuiltinModule("node:url");
+  const filename = fileURLToPath2(import.meta.url);
+  const sourceRun = filename.endsWith(path2.join("shared", "edition-config.ts")) && fs2.existsSync(path2.join(path2.resolve(path2.dirname(filename), ".."), "config", "editions", "neutral.yaml"));
+  if (!sourceRun) return null;
+  let parsed;
+  try {
+    parsed = JSON.parse(fs2.readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new Error(`HANA_SOURCE_EDITION_FILE points to an edition file that cannot be read as JSON (${file}): ${error instanceof Error ? error.message : String(error)}`);
+  }
+  const candidate = parsed;
+  const { profileHash, ...payload } = candidate;
+  const supportedKind2 = candidate.kind === "custom" || candidate.kind === "official-global" && isPublicDesktopEdition(candidate);
+  if (candidate.schemaVersion !== 1 || !supportedKind2 || typeof profileHash !== "string" || createHash("sha256").update(canonicalJson(payload)).digest("hex") !== profileHash) {
+    throw new Error(`HANA_SOURCE_EDITION_FILE points to an edition file that is invalid or unsupported (${file}); prepare it like shared/generated/edition.json.`);
+  }
+  return candidate;
+}
+var selected = sourceEditionOverride() ?? edition_default;
+var supportedKind = selected.kind === "custom" || selected.kind === "official-global" && isPublicDesktopEdition(selected);
+if (selected.schemaVersion !== 1 || !supportedKind || !/^[a-f0-9]{64}$/.test(selected.profileHash)) {
   throw new Error("Edition configuration is invalid or unsupported. Hana Cloud requires a custom edition or the maintained public profile; prepare a supported profile before starting or building Hana.");
 }
-var EDITION = freeze(edition_default);
+var EDITION = freeze(selected);
 
 // lib/remote-data/bounded-fetch.ts
 var import_service_destination = __toESM(require_service_destination(), 1);
@@ -717,12 +810,28 @@ var ENCODED_APP_UI_SURFACE_TOKEN_RE = /(%2Fapi%2Fapps%2F[^%&\s]+%2F(?:ui|routes%
 var API_KEY_VALUE_RE = /\b(sk-[a-zA-Z0-9_-]{20,}|AKIA[A-Z0-9]{16}|gsk_[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{36}|glpat-[a-zA-Z0-9_-]{20,}|xox[abpors]-[a-zA-Z0-9-]+)\b/g;
 var EMAIL_RE = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g;
 var CREDIT_CARD_RE = /\b(?:\d{4}[- ]?){3}\d{4}\b/g;
+var UUID_RE = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi;
+var UUID_PLACEHOLDER_RE = /\uE000uuid_(\d+)\uE001/g;
+var KEYED_DECIMAL_PREFIX_RE = /["\w]:[ ]?-?\d{1,15}\.$/;
+var KEYED_DECIMAL_LOOKBACK = 20;
 var CN_ID_CARD_RE = /\b\d{6}(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{3}[\dXx]\b/g;
 var SSN_RE = /\b\d{3}-\d{2}-\d{4}\b/g;
 var LONG_RANDOM_RE = /(^|[^\w/.-])([A-Za-z0-9+/_=-]{40,})(?=$|[^\w/.-])/g;
+var STUDIO_ID_RE = /\bstudio_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi;
+var STUDIO_ID_PLACEHOLDER_RE = /\uE000studio_(\d+)\uE001/g;
+var TASK_ID_UUID_BODY = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+var TASK_ID_RE = new RegExp(
+  `\\b(?:(?:subagent-fork-run|workflow-fork-run|subagent-fork|subagent-run|workflow-run|background-task|task|bg|attempt)[-_]${TASK_ID_UUID_BODY}|(?:subagent|workflow)-\\d{10,16}-[a-z0-9]{4,12}|(?:task|bg|subagent|workflow)_[0-9a-f]{24,64})\\b`,
+  "gi"
+);
+var TASK_ID_PLACEHOLDER_RE = /\uE000task_(\d+)\uE001/g;
 function redactLogText(value, options = {}) {
   if (value == null) return "";
   let text = String(value);
+  const studioIds = [];
+  text = text.replace(STUDIO_ID_RE, (match) => `\uE000studio_${studioIds.push(match) - 1}\uE001`);
+  const taskIds = [];
+  text = text.replace(TASK_ID_RE, (match) => `\uE000task_${taskIds.push(match) - 1}\uE001`);
   text = redactKnownPaths(text, options);
   text = text.replace(/data:([^;,]+);base64,[A-Za-z0-9+/=]+/gi, "data:$1;base64,[redacted]");
   text = text.replace(/(https?:\/\/)([^:@\s/?#]+):([^@\s/?#]+)@/gi, "$1[credentials]@");
@@ -734,12 +843,20 @@ function redactLogText(value, options = {}) {
   text = text.replace(/\b(Cookie|Set-Cookie)\s*[:=]\s*[^\r\n]+/gi, "$1=[redacted]");
   text = text.replace(SECRET_ASSIGN_RE, (_m, key) => `${key}=[redacted]`);
   text = text.replace(API_KEY_VALUE_RE, REDACTED);
-  text = text.replace(CREDIT_CARD_RE, "[credit_card]");
+  text = redactCardNumbers(text);
   text = text.replace(CN_ID_CARD_RE, "[id_card]");
   text = text.replace(SSN_RE, "[ssn]");
   text = text.replace(EMAIL_RE, "[email]");
   text = text.replace(LONG_RANDOM_RE, "$1[token]");
-  return text;
+  return text.replace(STUDIO_ID_PLACEHOLDER_RE, (_match, index) => studioIds[Number(index)] ?? "").replace(TASK_ID_PLACEHOLDER_RE, (_match, index) => taskIds[Number(index)] ?? "");
+}
+function redactCardNumbers(text) {
+  const uuids = [];
+  const shielded = text.replace(UUID_RE, (match) => `\uE000uuid_${uuids.push(match) - 1}\uE001`);
+  return shielded.replace(CREDIT_CARD_RE, (match, offset, whole) => isKeyedDecimalFraction(match, offset, whole) ? match : "[credit_card]").replace(UUID_PLACEHOLDER_RE, (_match, index) => uuids[Number(index)] ?? "");
+}
+function isKeyedDecimalFraction(match, offset, whole) {
+  return /^\d{16}$/.test(match) && KEYED_DECIMAL_PREFIX_RE.test(whole.slice(Math.max(0, offset - KEYED_DECIMAL_LOOKBACK), offset));
 }
 function redactKnownPaths(text, options) {
   let out = text;
@@ -1525,6 +1642,7 @@ function projectEntry(entry, registration, archiveUrl) {
   delete projected.stats;
   delete projected.readme;
   delete projected.readmeUrl;
+  delete projected.listedAt;
   return projected;
 }
 function indexPayloadBytes(index) {
@@ -1684,6 +1802,17 @@ function withApprovedReadme(item, approval) {
   else delete next.readme;
   return next;
 }
+function withListedAt(item, published, registration, nowIso) {
+  const next = { ...item };
+  const sameRepo = Boolean(published && published.repository === canonicalRepository(registration.repository));
+  if (sameRepo) {
+    if (typeof published.listedAt === "string") next.listedAt = published.listedAt;
+    else delete next.listedAt;
+  } else {
+    next.listedAt = nowIso;
+  }
+  return next;
+}
 function reusablePublishedItem(item, registration, approval) {
   if (!item || item.publisher !== registration.publisher || item.archive.sha256 !== approval.sha256) return null;
   return publishedTag(item, registration.repository) === approval.tag ? item : null;
@@ -1698,6 +1827,8 @@ async function synchronizeMarket({ registry, approvals, previousIndex = null, fe
   const pending = [];
   const warnings = [];
   const statsOptions = { fetchImpl, token, releases: /* @__PURE__ */ new Map() };
+  const syncNow = now();
+  const syncNowIso = syncNow.toISOString();
   for (const registration of registrations) {
     const approval = approved.get(enrollmentKey(registration));
     if (!approval) {
@@ -1712,7 +1843,7 @@ async function synchronizeMarket({ registry, approvals, previousIndex = null, fe
     }
     try {
       const { candidate } = await readReleaseCandidate(registration, { approval, fetchImpl, token });
-      const item = withApprovedReadme(historyFor(published, candidate, registration), approval);
+      const item = withListedAt(withApprovedReadme(historyFor(published, candidate, registration), approval), published, registration, syncNowIso);
       items.push(await withDownloadStats(item, registration, published?.stats, statsOptions, warnings));
     } catch (error) {
       failures.push(`${registration.kind}/${registration.id} (${registration.repository}): ${error instanceof Error ? error.message : String(error)}`);
@@ -1725,12 +1856,12 @@ ${failures.map((failure) => `- ${failure}`).join("\n")}`);
     schemaVersion: MARKET_INDEX_SCHEMA_VERSION,
     sourceId: MARKET_SOURCE_ID,
     name: MARKET_NAME,
-    publishedAt: previous?.publishedAt || now().toISOString(),
+    publishedAt: previous?.publishedAt || syncNowIso,
     items
   };
   if (previous && !deepEqual({ ...draft, publishedAt: previous.publishedAt }, previous)) {
     const previousMs = Date.parse(previous.publishedAt);
-    const requestedMs = now().getTime();
+    const requestedMs = syncNow.getTime();
     draft.publishedAt = new Date(Math.max(requestedMs, previousMs + 1)).toISOString();
   }
   const index = strictIndex(draft, "generated index");
